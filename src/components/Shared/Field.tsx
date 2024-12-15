@@ -8,12 +8,29 @@ export const Field = ({
 	value,
 	label,
 	onChange,
+	minDate,
+	maxDate,
 }: FieldProps) => {
 	return (
-		<div>
-			<label htmlFor={name}>{label}:</label>
-			<input type={type} name={name} value={value} onChange={onChange} />
-			<FieldErrors errors={errors} />
-		</div>
+		<>
+			<div>
+				<label htmlFor={name}>{label}:</label>
+				{type !== "date" && (
+					<input type={type} name={name} value={value} onChange={onChange} />
+				)}
+				{type === "date" && (
+					<input
+						type={type}
+						name={name}
+						value={value}
+						onChange={onChange}
+						min={minDate}
+						max={maxDate}
+						required
+					/>
+				)}
+				{type !== "radio" && <FieldErrors errors={errors} />}
+			</div>
+		</>
 	);
 };
