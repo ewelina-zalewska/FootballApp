@@ -1,11 +1,8 @@
-﻿import { FormEvent, useState } from "react";
-import { TeamFormValue } from "@/types";
+﻿import { FormEvent, useEffect, useState } from "react";
+import { TeamFormValue, TeamFormErrors } from "@/types";
+import { TeamFormFieldset } from "@/components/Forms/TeamFormFieldset";
 import { useForm } from "@/hooks/useForm";
-import { Field } from "@/components/Shared/Field";
-
-type FormErrors = {
-	[key in keyof TeamFormValue]: string[];
-};
+import { validateTeam as VALIDATE_TEAM } from "@/utils/validateTeam";
 
 export const TeamForm = () => {
 	const [formState, HANDLE_CHANGE] = useForm<TeamFormValue>({
@@ -14,61 +11,40 @@ export const TeamForm = () => {
 		location: "",
 	});
 
-	const [errors, setErrors] = useState<FormErrors>({
+	const [submitClicked, setSubmitClicked] = useState<boolean>(false);
+	const [success, setSuccess] = useState<boolean>(false);
+	const [errors, setErrors] = useState<TeamFormErrors>({
 		name: [],
 		yearOfFoundation: [],
 		location: [],
 	});
 
-	const [success, setSuccess] = useState<boolean>(false);
-
-	const { name, yearOfFoundation, location } = formState;
+	useEffect(() => {
+		if (submitClicked) {
+			const { newErrors } = VALIDATE_TEAM(formState);
+			setErrors(newErrors);
+		}
+	}, [formState, submitClicked]);
 
 	const HANDLE_SUBMIT = (e: FormEvent) => {
 		e.preventDefault();
-
-		let isSuccess = true;
-
-		const newErrors: FormErrors = {
-			name: [],
-			yearOfFoundation: [],
-			location: [],
-		};
-		if (!name) {
-			newErrors.name.push("To pole jest wymagane");
-			isSuccess = false;
-		}
+		const { newErrors, isSuccess } = VALIDATE_TEAM(formState);
 		setErrors(newErrors);
 		setSuccess(isSuccess);
+
+		if (!success) setSubmitClicked(true);
+		else setSubmitClicked(false);
 	};
+
 	return (
-		<form onSubmit={HANDLE_SUBMIT}>
-			{success && <p>Drużyna została dodana</p>}
-			<Field
-				type="text"
-				name="name"
-				errors={errors.name}
-				value={name}
-				label="Add name"
-				onChange={HANDLE_CHANGE}
+		<div>
+			<TeamFormFieldset
+				HANDLE_CHANGE={HANDLE_CHANGE}
+				HANDLE_SUBMIT={HANDLE_SUBMIT}
+				errors={errors}
+				success={success}
+				formState={formState}
 			/>
-			<Field
-				type="number"
-				name="yearOfFoundation"
-				errors={errors.yearOfFoundation}
-				value={yearOfFoundation}
-				label="Add yearOfFoundation"
-				onChange={HANDLE_CHANGE}
-			/>
-			<Field
-				type="text"
-				name="location"
-				errors={errors.location}
-				value={location}
-				label="Add location"
-				onChange={HANDLE_CHANGE}
-			/>
-			<button type="submit">Add</button>
-		</form>
+		</div>
 	);
 };
