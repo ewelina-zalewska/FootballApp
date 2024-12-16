@@ -1,6 +1,9 @@
-﻿import { TeamFormFieldsetProps } from "@/types";
-import { Field } from "@/components/Shared/Field";
+﻿import { useRef } from "react";
+import { TeamFormFieldsetProps } from "@/types";
+import { useFocus } from "@/hooks/useFocus";
+import { TheField } from "@/components/Shared/TheField";
 import { getDate } from "@/utils/getDate()";
+import { TheButton } from "@/components/Shared/TheButton";
 
 export const TeamFormFieldset = ({
 	HANDLE_CHANGE,
@@ -9,11 +12,18 @@ export const TeamFormFieldset = ({
 	success,
 	formState,
 }: TeamFormFieldsetProps) => {
+	const buttonRef = useRef<HTMLButtonElement | null>(null);
+	const firstRef = useFocus<HTMLInputElement>();
+	const formRef = useRef<HTMLFormElement>(null);
+
 	const { name, yearOfFoundation, location } = formState;
 	const { now, year1900 } = getDate();
+
+	const SEND_FORM = () => formRef.current?.requestSubmit();
 	return (
-		<form onSubmit={HANDLE_SUBMIT}>
-			<Field
+		<form ref={formRef} onSubmit={HANDLE_SUBMIT}>
+			<TheField
+				ref={firstRef}
 				type="text"
 				name="name"
 				errors={errors.name}
@@ -21,7 +31,7 @@ export const TeamFormFieldset = ({
 				label="Add team name"
 				onChange={HANDLE_CHANGE}
 			/>
-			<Field
+			<TheField
 				type="date"
 				name="yearOfFoundation"
 				errors={errors.yearOfFoundation}
@@ -31,7 +41,7 @@ export const TeamFormFieldset = ({
 				minDate={year1900}
 				maxDate={now}
 			/>
-			<Field
+			<TheField
 				type="text"
 				name="location"
 				errors={errors.location}
@@ -39,7 +49,12 @@ export const TeamFormFieldset = ({
 				label="Add team location"
 				onChange={HANDLE_CHANGE}
 			/>
-			<button type="submit">Add</button>
+			<TheButton
+				type="submit"
+				btnName="add team"
+				ref={buttonRef}
+				onClick={SEND_FORM}
+			/>
 			{success && <p>The team has been added.</p>}
 		</form>
 	);

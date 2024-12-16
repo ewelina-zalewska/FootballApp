@@ -1,6 +1,9 @@
-﻿import { GameFormFieldsetProps } from "@/types";
-import { Field } from "@/components/Shared/Field";
-import { Select } from "@/components/Shared/Select";
+﻿import { useRef } from "react";
+import { GameFormFieldsetProps } from "@/types";
+import { useFocus } from "@/hooks/useFocus";
+import { TheField } from "@/components/Shared/TheField";
+import { TheSelect } from "@/components/Shared/TheSelect";
+import { TheButton } from "@/components/Shared/TheButton";
 import { getDate } from "@/utils/getDate()";
 
 export const GameFormFieldset = ({
@@ -11,6 +14,10 @@ export const GameFormFieldset = ({
 	formState,
 	winner,
 }: GameFormFieldsetProps) => {
+	const buttonRef = useRef<HTMLButtonElement | null>(null);
+	const firstRef = useFocus<HTMLInputElement>();
+	const formRef = useRef<HTMLFormElement>(null);
+
 	const selectLabels = ["team1", "team2", "team3"];
 	const { now } = getDate();
 	const {
@@ -24,9 +31,19 @@ export const GameFormFieldset = ({
 		numberOfGoals_team2,
 	} = formState;
 
+	const SEND_FORM = () => formRef.current?.requestSubmit();
 	return (
-		<form onSubmit={HANDLE_SUBMIT}>
-			<Field
+		<form ref={formRef} onSubmit={HANDLE_SUBMIT}>
+			<TheField
+				ref={firstRef}
+				type="text"
+				name="title"
+				errors={errors.title}
+				value={title}
+				label="Add game title"
+				onChange={HANDLE_CHANGE}
+			/>
+			<TheField
 				type="date"
 				name="date"
 				errors={errors.date}
@@ -35,15 +52,7 @@ export const GameFormFieldset = ({
 				minDate={now}
 				onChange={HANDLE_CHANGE}
 			/>
-			<Field
-				type="text"
-				name="title"
-				errors={errors.title}
-				value={title}
-				label="Add game title"
-				onChange={HANDLE_CHANGE}
-			/>
-			<Field
+			<TheField
 				type="text"
 				name="location"
 				errors={errors.location}
@@ -51,7 +60,7 @@ export const GameFormFieldset = ({
 				label="Add game location"
 				onChange={HANDLE_CHANGE}
 			/>
-			<Field
+			<TheField
 				type="number"
 				name="duration"
 				errors={errors.duration}
@@ -61,7 +70,7 @@ export const GameFormFieldset = ({
 			/>
 
 			<fieldset>
-				<Select
+				<TheSelect
 					name="team1"
 					errors={errors.team1}
 					value={team1}
@@ -69,7 +78,7 @@ export const GameFormFieldset = ({
 					legend="For"
 					onChange={HANDLE_CHANGE}
 				/>
-				<Field
+				<TheField
 					type="number"
 					name="numberOfGoals_team1"
 					errors={errors.numberOfGoals_team1}
@@ -80,7 +89,7 @@ export const GameFormFieldset = ({
 			</fieldset>
 
 			<fieldset>
-				<Select
+				<TheSelect
 					name="team2"
 					errors={errors.team2}
 					value={team2}
@@ -88,7 +97,7 @@ export const GameFormFieldset = ({
 					legend="For"
 					onChange={HANDLE_CHANGE}
 				/>
-				<Field
+				<TheField
 					type="number"
 					name="numberOfGoals_team2"
 					errors={errors.numberOfGoals_team2}
@@ -100,7 +109,12 @@ export const GameFormFieldset = ({
 			<div>
 				<p>Winner:{winner}</p>
 			</div>
-			<button type="submit">Add</button>
+			<TheButton
+				type="submit"
+				btnName="add game"
+				ref={buttonRef}
+				onClick={SEND_FORM}
+			/>
 			{success && <p>The game has been added.</p>}
 		</form>
 	);

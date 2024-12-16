@@ -5,6 +5,8 @@ import { validatePlayer as VALIDATE_PLAYER } from "@/utils/validatePlayer";
 import { PlayerFormFieldset } from "@/components/Forms/PlayerFormFieldset";
 
 export const PlayerForm = () => {
+	const [submitClicked, setSubmitClicked] = useState<boolean>(false);
+	const [success, setSuccess] = useState<boolean>(false);
 	const [formState, HANDLE_CHANGE] = useForm<PlayerFormValue>({
 		name: "",
 		lastName: "",
@@ -12,8 +14,6 @@ export const PlayerForm = () => {
 		team: "",
 	});
 
-	const [submitClicked, setSubmitClicked] = useState<boolean>(false);
-	const [success, setSuccess] = useState<boolean>(false);
 	const [errors, setErrors] = useState<PlayerFormErrors>({
 		name: [],
 		lastName: [],
@@ -34,8 +34,12 @@ export const PlayerForm = () => {
 		setErrors(newErrors);
 		setSuccess(isSuccess);
 
-		if (!success) setSubmitClicked(true);
-		else setSubmitClicked(false);
+		if (!success) {
+			setSubmitClicked(true);
+		} else {
+			setSubmitClicked(false);
+			console.log("Form is being sent!");
+		}
 	};
 
 	return (

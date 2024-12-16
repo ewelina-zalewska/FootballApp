@@ -32,8 +32,12 @@ export const TeamForm = () => {
 		setErrors(newErrors);
 		setSuccess(isSuccess);
 
-		if (!success) setSubmitClicked(true);
-		else setSubmitClicked(false);
+		if (!success) {
+			setSubmitClicked(true);
+		} else {
+			setSubmitClicked(false);
+			console.log("Form is being sent!");
+		}
 	};
 
 	return (

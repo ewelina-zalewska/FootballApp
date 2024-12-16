@@ -1,7 +1,10 @@
-﻿import { PlayerFormFieldsetProps } from "@/types";
-import { Field } from "@/components/Shared/Field";
-import { Select } from "@/components/Shared/Select";
+﻿import { useRef } from "react";
+import { PlayerFormFieldsetProps } from "@/types";
+import { useFocus } from "@/hooks/useFocus";
+import { TheField } from "@/components/Shared/TheField";
+import { TheSelect } from "@/components/Shared/TheSelect";
 import { FieldErrors } from "@/components/Shared/FieldErrors";
+import { TheButton } from "@/components/Shared/TheButton";
 
 export const PlayerFormFieldset = ({
 	HANDLE_CHANGE,
@@ -10,11 +13,19 @@ export const PlayerFormFieldset = ({
 	success,
 	formState,
 }: PlayerFormFieldsetProps) => {
+	const firstRef = useFocus<HTMLInputElement>();
+	const buttonRef = useRef<HTMLButtonElement>(null);
+	const formRef = useRef<HTMLFormElement>(null);
+
 	const selectLabels = ["team1", "team2", "team3"];
 	const { name, lastName, belongToTeam, team } = formState;
+
+	const SEND_FORM = () => formRef.current?.requestSubmit();
+
 	return (
-		<form onSubmit={HANDLE_SUBMIT}>
-			<Field
+		<form ref={formRef} onSubmit={HANDLE_SUBMIT}>
+			<TheField
+				ref={firstRef}
 				type="text"
 				name="name"
 				errors={errors.name}
@@ -22,7 +33,7 @@ export const PlayerFormFieldset = ({
 				label="Add first name"
 				onChange={HANDLE_CHANGE}
 			/>
-			<Field
+			<TheField
 				type="text"
 				name="lastName"
 				errors={errors.lastName}
@@ -32,7 +43,7 @@ export const PlayerFormFieldset = ({
 			/>
 			<fieldset>
 				<legend>Are you on the team?</legend>
-				<Field
+				<TheField
 					type="radio"
 					name="belongToTeam"
 					errors={errors.belongToTeam}
@@ -41,7 +52,7 @@ export const PlayerFormFieldset = ({
 					onChange={HANDLE_CHANGE}
 				/>
 
-				<Field
+				<TheField
 					type="radio"
 					name="belongToTeam"
 					errors={errors.belongToTeam}
@@ -54,7 +65,7 @@ export const PlayerFormFieldset = ({
 
 			{belongToTeam === "yes" && (
 				<fieldset>
-					<Select
+					<TheSelect
 						name="team"
 						errors={errors.team}
 						value={team}
@@ -64,7 +75,12 @@ export const PlayerFormFieldset = ({
 					/>
 				</fieldset>
 			)}
-			<button type="submit">Add</button>
+			<TheButton
+				type="submit"
+				btnName="add player"
+				ref={buttonRef}
+				onClick={SEND_FORM}
+			/>
 			<div>{success && <p>The player has been added.</p>}</div>
 		</form>
 	);
