@@ -85,3 +85,45 @@ export type TeamFormFieldsetProps = {
 	success: boolean;
 	formState: TeamFormValue;
 };
+
+//List
+export type PlayerListProps = {
+	id: string;
+	name: string;
+	lastname: string;
+	team: string;
+};
+
+export type TeamListProps = {
+	id: string;
+	name: string;
+	yearOfFoundation: string;
+	location: string;
+	players: [
+		{
+			id: string;
+			name: string;
+			lastname: string;
+		},
+	];
+};
+
+export type GamesListProps = {
+	id: string;
+	title: string;
+	date: string;
+	location: string;
+	duration: string;
+	teams: [
+		{
+			id: string;
+			name: string;
+			numberOfGoals: string;
+		},
+		{
+			id: string;
+			name: string;
+			numberOfGoals: string;
+		},
+	];
+};
