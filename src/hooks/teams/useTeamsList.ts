@@ -6,14 +6,18 @@ export const useTeamsList = () => {
 	const { API_GET, loading, error } = useApi();
 	const [data, setData] = useState<TeamListProps[]>();
 
-	const getTeamsList = async () => {
+	const GET_TEAMS_LIST = async () => {
 		const response = await API_GET<TeamListProps[]>("teams");
 		if (response) setData(response);
 	};
 
-	useEffect(() => {
-		getTeamsList();
-	});
+	const REMOVE_TEAM = (id: string) => {
+		setData((prevData) => prevData?.filter((data) => data.id !== id));
+	};
 
-	return { data, error, loading };
+	useEffect(() => {
+		GET_TEAMS_LIST();
+	}, []);
+
+	return { data, error, loading, REMOVE_TEAM };
 };

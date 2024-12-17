@@ -2,7 +2,7 @@
 import { useTeamsList } from "@/hooks/teams/useTeamsList";
 
 export const TeamsList = () => {
-	const { data, error, loading } = useTeamsList();
+	const { data, error, loading, REMOVE_TEAM } = useTeamsList();
 
 	if (loading) return <p> Loading...</p>;
 	if (error) return <p>{error}</p>;
@@ -10,7 +10,7 @@ export const TeamsList = () => {
 	return (
 		<ul>
 			{data.map((element) => (
-				<SingleTeam element={element} key={element.id} />
+				<SingleTeam element={element} key={element.id} remove={REMOVE_TEAM} />
 			))}
 		</ul>
 	);
