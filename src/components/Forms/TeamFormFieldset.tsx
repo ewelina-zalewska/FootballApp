@@ -2,7 +2,7 @@
 import { TeamFormFieldsetProps } from "@/types";
 import { useFocus } from "@/hooks/forms/useFocus";
 import { TheField } from "@/components/Shared/TheField";
-import { getDate } from "@/utils/getDate()";
+import { getDate } from "@/utils/getDate";
 import { TheButton } from "@/components/Shared/TheButton";
 
 export const TeamFormFieldset = ({

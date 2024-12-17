@@ -1,13 +1,13 @@
 ﻿import { useState } from "react";
-import { TeamListProps } from "@/types";
+import { Team } from "@/types";
 import { useApi } from "@/hooks/useApi";
 
 export const useTeamsListDelete = () => {
 	const { API_DELETE, loading, error } = useApi();
-	const [data, setData] = useState<TeamListProps>();
+	const [data, setData] = useState<Team>();
 
 	const DELETE_TEAM = async (id: string) => {
-		const response = await API_DELETE<TeamListProps>(`teams/${id}`);
+		const response = await API_DELETE<Team>(`teams/${id}`);
 		if (response) setData(response);
 	};
 

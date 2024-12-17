@@ -1,11 +1,13 @@
 ﻿import { FormEvent, useEffect, useState } from "react";
-import { TeamFormValue, TeamFormErrors } from "@/types";
+import { TeamFormValue, TeamFormErrors, TeamFormProps } from "@/types";
 import { TeamFormFieldset } from "@/components/Forms/TeamFormFieldset";
 import { useForm } from "@/hooks/forms/useForm";
 import { validateTeam as VALIDATE_TEAM } from "@/utils/validateTeam";
+import { useTeamsListCreate } from "@/hooks/teams/useTeamsListCreate";
 
-export const TeamForm = () => {
-	const [formState, HANDLE_CHANGE] = useForm<TeamFormValue>({
+export const TeamForm = ({ onNewTeam }: TeamFormProps) => {
+	const { CREATE_TEAM, error, loading, data } = useTeamsListCreate();
+	const [formState, setFormState, HANDLE_CHANGE] = useForm<TeamFormValue>({
 		name: "",
 		yearOfFoundation: "",
 		location: "",
@@ -26,6 +28,11 @@ export const TeamForm = () => {
 		}
 	}, [formState, submitClicked]);
 
+	useEffect(() => {
+		if (!data) return;
+		onNewTeam(data);
+	}, [data]);
+
 	const HANDLE_SUBMIT = (e: FormEvent) => {
 		e.preventDefault();
 		const { newErrors, isSuccess } = VALIDATE_TEAM(formState);
@@ -35,11 +42,21 @@ export const TeamForm = () => {
 		if (!success) {
 			setSubmitClicked(true);
 		} else {
+			CREATE_TEAM(
+				formState.name,
+				formState.yearOfFoundation,
+				formState.location,
+			);
+			setFormState({
+				name: "",
+				yearOfFoundation: "",
+				location: "",
+			});
 			setSubmitClicked(false);
 			console.log("Form is being sent!");
 		}
 	};
-
+	if (loading) return <p>Loading...</p>;
 	return (
 		<div>
 			<TeamFormFieldset
@@ -49,6 +66,7 @@ export const TeamForm = () => {
 				success={success}
 				formState={formState}
 			/>
+			{error && <p> {error}</p>}
 		</div>
 	);
 };

@@ -1,7 +1,11 @@
 ﻿import { useState } from "react";
 import { FormChangeEvent } from "@/types";
 
-type UseFormReturn<T> = [T, (e: FormChangeEvent) => void];
+type UseFormReturn<T> = [
+	T,
+	React.Dispatch<React.SetStateAction<T>>,
+	(e: FormChangeEvent) => void,
+];
 
 export const useForm = <T>(initialValue: T): UseFormReturn<T> => {
 	const [formState, setFormState] = useState<T>(initialValue);
@@ -18,5 +22,5 @@ export const useForm = <T>(initialValue: T): UseFormReturn<T> => {
 		}));
 	};
 
-	return [formState, HANDLE_CHANGE];
+	return [formState, setFormState, HANDLE_CHANGE];
 };
