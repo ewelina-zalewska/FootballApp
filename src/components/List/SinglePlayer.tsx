@@ -1,10 +1,10 @@
-﻿import { PlayerListProps } from "@/types";
+﻿import { Player } from "@/types";
 import { usePlayersListDelete } from "@/hooks/players/usePlayersListDelete";
 import { useEffect } from "react";
 
 type SinglePlayerProps = {
 	remove: (id: string) => void;
-	element: PlayerListProps;
+	element: Player;
 };
 
 export const SinglePlayer = ({ element, remove }: SinglePlayerProps) => {
@@ -22,7 +22,7 @@ export const SinglePlayer = ({ element, remove }: SinglePlayerProps) => {
 	return (
 		<li>
 			<p>{element.name}</p>
-			<p> {element.lastname}</p>
+			<p> {element.lastName}</p>
 			<p>{element.team}</p>
 			<button disabled={loading} onClick={onDelete}>
 				DELETE
