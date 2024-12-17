@@ -1,24 +1,24 @@
 ﻿import { FormEvent, useEffect, useState } from "react";
-import { PlayerFormValue, PlayerFormErrors, PlayersFormProps } from "@/types";
+import { PlayerFormValue, PlayerFormErrors, PlayerFormProps } from "@/types";
 import { useForm } from "@/hooks/forms/useForm";
 import { validatePlayer as VALIDATE_PLAYER } from "@/utils/validatePlayer";
 import { PlayerFormFieldset } from "@/components/Forms/PlayerFormFieldset";
 import { usePlayersListCreate } from "@/hooks/players/usePlayersListCreate";
 
-export const PlayerForm = ({ onNewPlayer }: PlayersFormProps) => {
+export const PlayerForm = ({ onNewPlayer }: PlayerFormProps) => {
 	const { CREATE_PLAYER, error, loading, data } = usePlayersListCreate();
 	const [submitClicked, setSubmitClicked] = useState<boolean>(false);
 	const [success, setSuccess] = useState<boolean>(false);
 	const [formState, setFormState, HANDLE_CHANGE] = useForm<PlayerFormValue>({
 		name: "",
-		lastName: "",
+		lastname: "",
 		belongToTeam: "",
 		team: "",
 	});
 
 	const [errors, setErrors] = useState<PlayerFormErrors>({
 		name: [],
-		lastName: [],
+		lastname: [],
 		belongToTeam: [],
 		team: [],
 	});
@@ -46,13 +46,13 @@ export const PlayerForm = ({ onNewPlayer }: PlayersFormProps) => {
 		} else {
 			CREATE_PLAYER(
 				formState.name,
-				formState.lastName,
+				formState.lastname,
 				formState.belongToTeam,
 				formState.team,
 			);
 			setFormState({
 				name: "",
-				lastName: "",
+				lastname: "",
 				belongToTeam: "",
 				team: "",
 			});

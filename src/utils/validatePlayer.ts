@@ -1,12 +1,12 @@
 ﻿import { PlayerFormErrors, PlayerFormValue } from "@/types";
 
 export const validatePlayer = (playerForm: PlayerFormValue) => {
-	const { name, lastName, belongToTeam, team } = playerForm;
+	const { name, lastname, belongToTeam, team } = playerForm;
 
 	let isSuccess = true;
 	const newErrors: PlayerFormErrors = {
 		name: [],
-		lastName: [],
+		lastname: [],
 		belongToTeam: [],
 		team: [],
 	};
@@ -17,10 +17,10 @@ export const validatePlayer = (playerForm: PlayerFormValue) => {
 		newErrors.name.push("First name must be at least 3 characters long.");
 	}
 
-	if (!lastName.trim()) {
-		newErrors.lastName.push("Last name is required.");
-	} else if (lastName.length < 3) {
-		newErrors.lastName.push("Last name must be at least 3 characters long.");
+	if (!lastname.trim()) {
+		newErrors.lastname.push("Last name is required.");
+	} else if (lastname.length < 3) {
+		newErrors.lastname.push("Last name must be at least 3 characters long.");
 	}
 
 	if (belongToTeam.length < 2) {
@@ -33,8 +33,9 @@ export const validatePlayer = (playerForm: PlayerFormValue) => {
 	if (
 		!name.trim() ||
 		name.length < 3 ||
-		!lastName.trim() ||
-		lastName.length < 3 ||
+		!lastname.trim() ||
+		lastname.length < 3 ||
+		!belongToTeam ||
 		(belongToTeam === "yes" && !team)
 	) {
 		isSuccess = false;

@@ -15,7 +15,7 @@ export const useTeamsList = () => {
 		setData((prevData) => prevData?.filter((data) => data.id !== id));
 	};
 
-	const ADD_GAME = (team: Team) => {
+	const ADD_TEAM = (team: Team) => {
 		setData((prevData) => [...(prevData || []), team]);
 	};
 
@@ -23,5 +23,5 @@ export const useTeamsList = () => {
 		GET_TEAMS_LIST();
 	}, []);
 
-	return { data, error, loading, REMOVE_TEAM, ADD_GAME };
+	return { data, error, loading, REMOVE_TEAM, ADD_TEAM };
 };

@@ -1,7 +1,7 @@
 ﻿import { TeamFormErrors, TeamFormValue } from "@/types";
 
 export const validateTeam = (TeamForm: TeamFormValue) => {
-	const { name, location } = TeamForm;
+	const { name, location, yearOfFoundation } = TeamForm;
 
 	let isSuccess = true;
 	const newErrors: TeamFormErrors = {
@@ -28,7 +28,8 @@ export const validateTeam = (TeamForm: TeamFormValue) => {
 		!name.trim() ||
 		name.length < 2 ||
 		!location.trim() ||
-		location.length < 3
+		location.length < 3 ||
+		!yearOfFoundation
 	) {
 		isSuccess = false;
 	}

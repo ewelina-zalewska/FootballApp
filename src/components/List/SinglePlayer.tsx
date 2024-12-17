@@ -22,7 +22,7 @@ export const SinglePlayer = ({ element, remove }: SinglePlayerProps) => {
 	return (
 		<li>
 			<p>{element.name}</p>
-			<p> {element.lastName}</p>
+			<p> {element.lastname}</p>
 			<p>{element.team}</p>
 			<button disabled={loading} onClick={onDelete}>
 				DELETE

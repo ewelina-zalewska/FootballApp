@@ -11,7 +11,7 @@ export const useTeamsListCreate = () => {
 		yearOfFoundation: string,
 		location: string,
 	) => {
-		const response = await API_POST<Team, TeamDto>(`games`, {
+		const response = await API_POST<Team, TeamDto>(`teams`, {
 			name,
 			yearOfFoundation,
 			location,

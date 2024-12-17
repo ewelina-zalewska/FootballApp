@@ -18,7 +18,7 @@ export const PlayerFormFieldset = ({
 	const formRef = useRef<HTMLFormElement>(null);
 
 	const selectLabels = ["team1", "team2", "team3"];
-	const { name, lastName, belongToTeam, team } = formState;
+	const { name, lastname, belongToTeam, team } = formState;
 
 	const SEND_FORM = () => formRef.current?.requestSubmit();
 
@@ -35,9 +35,9 @@ export const PlayerFormFieldset = ({
 			/>
 			<TheField
 				type="text"
-				name="lastName"
-				errors={errors.lastName}
-				value={lastName}
+				name="lastname"
+				errors={errors.lastname}
+				value={lastname}
 				label="Add last name"
 				onChange={HANDLE_CHANGE}
 			/>
