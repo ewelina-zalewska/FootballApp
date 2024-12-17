@@ -11,9 +11,13 @@ export const usePlayersList = () => {
 		if (response) setData(response);
 	};
 
+	const REMOVE_PLAYER = (id: string) => {
+		setData((prevData) => prevData?.filter((data) => data.id !== id));
+	};
+
 	useEffect(() => {
 		GET_PLAYERS_LIST();
-	});
+	}, []);
 
-	return { data, error, loading };
+	return { data, error, loading, REMOVE_PLAYER };
 };

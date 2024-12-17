@@ -2,7 +2,7 @@
 import { usePlayersList } from "@/hooks/players/usePlayersList";
 
 export const PlayersList = () => {
-	const { data, error, loading } = usePlayersList();
+	const { data, error, loading, REMOVE_PLAYER } = usePlayersList();
 
 	if (loading) return <p> Loading...</p>;
 	if (error) return <p>{error}</p>;
@@ -10,7 +10,11 @@ export const PlayersList = () => {
 	return (
 		<ul>
 			{data.map((element) => (
-				<SinglePlayer element={element} key={element.id} />
+				<SinglePlayer
+					element={element}
+					key={element.id}
+					remove={REMOVE_PLAYER}
+				/>
 			))}
 		</ul>
 	);

@@ -3,10 +3,11 @@
 const API_BASE = import.meta.env.VITE_API_URL;
 
 export const useApi = () => {
-	const [loading, setLoading] = useState<boolean>(true);
+	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string>("");
 
 	const CALL = async <R>(url: string, method: "GET" | "DELETE") => {
+		setLoading(true);
 		try {
 			const response = await fetch(`${API_BASE}${url}`, { method });
 			if (response.ok) {
@@ -15,10 +16,12 @@ export const useApi = () => {
 			} else {
 				const apiError: string = await response.text();
 				setError(apiError);
+				alert(error);
+				throw new Error();
 			}
 		} catch (e) {
-			console.log("Error", e);
-			setError("An error occurred");
+			alert(e);
+			throw new Error();
 		} finally {
 			setLoading(false);
 		}
