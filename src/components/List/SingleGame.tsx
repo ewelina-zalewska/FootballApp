@@ -1,7 +1,7 @@
-﻿import { GamesListProps } from "@/types";
+﻿import { GameListProps } from "@/types";
 
 type SingleGameProps = {
-	element: GamesListProps;
+	element: GameListProps;
 };
 
 export const SingleGame = ({ element }: SingleGameProps) => {

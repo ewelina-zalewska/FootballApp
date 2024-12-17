@@ -1,5 +1,5 @@
 ﻿import { SingleTeam } from "@/components/List/SingleTeam";
-import { useTeamsList } from "@/hooks/useTeamsList";
+import { useTeamsList } from "@/hooks/teams/useTeamsList";
 
 export const TeamsList = () => {
 	const { data, error, loading } = useTeamsList();

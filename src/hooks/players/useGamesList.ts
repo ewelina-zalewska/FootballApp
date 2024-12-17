@@ -1,13 +1,13 @@
 ﻿import { useEffect, useState } from "react";
-import { GamesListProps } from "@/types";
-import { useApi } from "@/hooks/useApi";
+import { GameListProps } from "@/types";
+import { useApi } from "@/";
 
 export const useGamesList = () => {
 	const { API_GET, loading, error } = useApi();
-	const [data, setData] = useState<GamesListProps[]>();
+	const [data, setData] = useState<GameListProps[]>();
 
 	const getGamesList = async () => {
-		const response = await API_GET<GamesListProps[]>("games");
+		const response = await API_GET<GameListProps[]>("games");
 		if (response) setData(response);
 	};
 

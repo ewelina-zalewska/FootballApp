@@ -1,6 +1,6 @@
 ﻿import { useRef } from "react";
 import { GameFormFieldsetProps } from "@/types";
-import { useFocus } from "@/hooks/useFocus";
+import { useFocus } from "@/hooks/forms/useFocus";
 import { TheField } from "@/components/Shared/TheField";
 import { TheSelect } from "@/components/Shared/TheSelect";
 import { TheButton } from "@/components/Shared/TheButton";

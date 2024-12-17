@@ -1,6 +1,6 @@
 ﻿import { FormEvent, useEffect, useState } from "react";
 import { PlayerFormValue, PlayerFormErrors } from "@/types";
-import { useForm } from "@/hooks/useForm";
+import { useForm } from "@/hooks/forms/useForm";
 import { validatePlayer as VALIDATE_PLAYER } from "@/utils/validatePlayer";
 import { PlayerFormFieldset } from "@/components/Forms/PlayerFormFieldset";
 

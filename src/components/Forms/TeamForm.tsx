@@ -1,7 +1,7 @@
 ﻿import { FormEvent, useEffect, useState } from "react";
 import { TeamFormValue, TeamFormErrors } from "@/types";
 import { TeamFormFieldset } from "@/components/Forms/TeamFormFieldset";
-import { useForm } from "@/hooks/useForm";
+import { useForm } from "@/hooks/forms/useForm";
 import { validateTeam as VALIDATE_TEAM } from "@/utils/validateTeam";
 
 export const TeamForm = () => {

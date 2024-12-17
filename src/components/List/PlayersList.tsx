@@ -1,5 +1,5 @@
 ﻿import { SinglePlayer } from "@/components/List/SinglePlayer";
-import { usePlayersList } from "@/hooks/usePlayersList";
+import { usePlayersList } from "@/hooks/players/usePlayersList";
 
 export const PlayersList = () => {
 	const { data, error, loading } = usePlayersList();

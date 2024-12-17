@@ -6,13 +6,13 @@ export const usePlayersList = () => {
 	const { API_GET, loading, error } = useApi();
 	const [data, setData] = useState<PlayerListProps[]>();
 
-	const getPlayersList = async () => {
+	const GET_PLAYERS_LIST = async () => {
 		const response = await API_GET<PlayerListProps[]>("players");
 		if (response) setData(response);
 	};
 
 	useEffect(() => {
-		getPlayersList();
+		GET_PLAYERS_LIST();
 	});
 
 	return { data, error, loading };

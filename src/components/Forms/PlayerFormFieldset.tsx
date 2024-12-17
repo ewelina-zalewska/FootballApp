@@ -1,6 +1,6 @@
 ﻿import { useRef } from "react";
 import { PlayerFormFieldsetProps } from "@/types";
-import { useFocus } from "@/hooks/useFocus";
+import { useFocus } from "@/hooks/forms/useFocus";
 import { TheField } from "@/components/Shared/TheField";
 import { TheSelect } from "@/components/Shared/TheSelect";
 import { FieldErrors } from "@/components/Shared/FieldErrors";

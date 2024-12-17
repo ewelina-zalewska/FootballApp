@@ -1,6 +1,6 @@
 ﻿import { FormEvent, useEffect, useState } from "react";
 import { GameFormValue, GameFormErrors } from "@/types";
-import { useForm } from "@/hooks/useForm";
+import { useForm } from "@/hooks/forms/useForm";
 import { GameFormFieldset } from "@/components/Forms/GameFormFieldset";
 import { validateGame as VALIDATE_GAME } from "@/utils/validateGame";
 import { getWinner as GET_WINNER } from "@/utils/getWinner";
