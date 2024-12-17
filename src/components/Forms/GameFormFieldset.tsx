@@ -4,7 +4,7 @@ import { useFocus } from "@/hooks/forms/useFocus";
 import { TheField } from "@/components/Shared/TheField";
 import { TheSelect } from "@/components/Shared/TheSelect";
 import { TheButton } from "@/components/Shared/TheButton";
-import { getDate } from "@/utils/getDate()";
+import { getDate } from "@/utils/getDate";
 
 export const GameFormFieldset = ({
 	HANDLE_CHANGE,
@@ -19,7 +19,7 @@ export const GameFormFieldset = ({
 	const formRef = useRef<HTMLFormElement>(null);
 
 	const selectLabels = ["team1", "team2", "team3"];
-	const { now } = getDate();
+	const { now, yearBefore } = getDate();
 	const {
 		date,
 		title,
@@ -49,7 +49,8 @@ export const GameFormFieldset = ({
 				errors={errors.date}
 				value={date}
 				label="Add game date"
-				minDate={now}
+				minDate={yearBefore}
+				maxDate={now}
 				onChange={HANDLE_CHANGE}
 			/>
 			<TheField

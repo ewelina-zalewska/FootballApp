@@ -1,10 +1,10 @@
 ﻿import { useGamesListDelete } from "@/hooks/games/useGamesListDelete";
-import { GameListProps } from "@/types";
+import { Game } from "@/types";
 import { useEffect } from "react";
 
 type SingleGameProps = {
 	remove: (id: string) => void;
-	element: GameListProps;
+	element: Game;
 };
 
 export const SingleGame = ({ element, remove }: SingleGameProps) => {
@@ -21,17 +21,14 @@ export const SingleGame = ({ element, remove }: SingleGameProps) => {
 
 	return (
 		<li>
-			<p>{element.title}</p>
-			<p> {element.date}</p>
+			<p>{element.date}</p>
+			<p>{element.duration}</p>
 			<p>{element.location}</p>
-			<ol>
-				<p>TEAMS:</p>
-				{element.teams.map((team) => (
-					<li key={team.id}>
-						{team.name} {team.numberOfGoals}
-					</li>
-				))}
-			</ol>
+			<p>{element.team1}</p>
+			<p>{element.numberOfGoals_team1}</p>
+			<p>{element.team2}</p>
+			<p>{element.numberOfGoals_team2}</p>
+
 			<button disabled={loading} onClick={onDelete}>
 				DELETE
 			</button>
