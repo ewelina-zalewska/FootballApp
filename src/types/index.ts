@@ -108,7 +108,7 @@ export type TeamListProps = {
 	];
 };
 
-export type GamesListProps = {
+export type GameListProps = {
 	id: string;
 	title: string;
 	date: string;

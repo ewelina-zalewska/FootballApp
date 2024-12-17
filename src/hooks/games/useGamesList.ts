@@ -6,14 +6,18 @@ export const useGamesList = () => {
 	const { API_GET, loading, error } = useApi();
 	const [data, setData] = useState<GameListProps[]>();
 
-	const getGamesList = async () => {
+	const GET_GAMES_LIST = async () => {
 		const response = await API_GET<GameListProps[]>("games");
 		if (response) setData(response);
 	};
 
-	useEffect(() => {
-		getGamesList();
-	});
+	const REMOVE_GAME = (id: string) => {
+		setData((prevData) => prevData?.filter((data) => data.id !== id));
+	};
 
-	return { data, error, loading };
+	useEffect(() => {
+		GET_GAMES_LIST();
+	}, []);
+
+	return { data, error, loading, REMOVE_GAME };
 };

@@ -1,10 +1,24 @@
-﻿import { GameListProps } from "@/types";
+﻿import { useGamesListDelete } from "@/hooks/games/useGamesListDelete";
+import { GameListProps } from "@/types";
+import { useEffect } from "react";
 
 type SingleGameProps = {
+	remove: (id: string) => void;
 	element: GameListProps;
 };
 
-export const SingleGame = ({ element }: SingleGameProps) => {
+export const SingleGame = ({ element, remove }: SingleGameProps) => {
+	const { loading, error, DELETE_GAME, data } = useGamesListDelete();
+
+	const onDelete = () => {
+		DELETE_GAME(element.id);
+	};
+
+	useEffect(() => {
+		if (!data) return;
+		remove(data.id);
+	}, [data]);
+
 	return (
 		<li>
 			<p>{element.title}</p>
@@ -18,7 +32,10 @@ export const SingleGame = ({ element }: SingleGameProps) => {
 					</li>
 				))}
 			</ol>
-			<button>DELETE</button>
+			<button disabled={loading} onClick={onDelete}>
+				DELETE
+			</button>
+			{error && <p>{error}</p>}
 		</li>
 	);
 };
