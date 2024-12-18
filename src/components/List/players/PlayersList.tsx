@@ -1,6 +1,6 @@
 ﻿import { usePlayersList } from "@/hooks/players/usePlayersList";
-import { SinglePlayer } from "@/components/List/SinglePlayer";
-import { PlayerForm } from "@/components/Forms/PlayerForm";
+import { SinglePlayer } from "@/components/List/players/SinglePlayer";
+import { PlayerForm } from "@/components/Forms/players/PlayerForm";
 
 export const PlayersList = () => {
 	const { data, error, loading, REMOVE_PLAYER, ADD_PLAYER } = usePlayersList();

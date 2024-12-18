@@ -1,6 +1,6 @@
-﻿import { SingleGame } from "@/components/List/SingleGame";
+﻿import { SingleGame } from "@/components/List/games/SingleGame";
 import { useGamesList } from "@/hooks/games/useGamesList";
-import { GameForm } from "@/components/Forms/GameForm";
+import { GameForm } from "@/components/Forms/games/GameForm";
 
 export const GamesList = () => {
 	const { data, error, loading, REMOVE_GAME, ADD_GAME } = useGamesList();

@@ -1,6 +1,6 @@
-﻿import { SingleTeam } from "@/components/List/SingleTeam";
+﻿import { SingleTeam } from "@/components/List/teams/SingleTeam";
 import { useTeamsList } from "@/hooks/teams/useTeamsList";
-import { TeamForm } from "@/components/Forms/TeamForm";
+import { TeamForm } from "@/components/Forms/teams/TeamForm";
 
 export const TeamsList = () => {
 	const { data, error, loading, REMOVE_TEAM, ADD_TEAM } = useTeamsList();
