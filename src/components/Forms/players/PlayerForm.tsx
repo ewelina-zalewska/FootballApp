@@ -1,12 +1,19 @@
 ﻿import { FormEvent, useEffect, useState } from "react";
-import { PlayerFormValue, PlayerFormErrors, PlayerFormProps } from "@/types";
+import {
+	PlayerFormValue,
+	PlayerFormErrors,
+	PlayerFormProps,
+	Team,
+} from "@/types";
+import { useApi } from "@/hooks/useApi";
 import { useForm } from "@/hooks/forms/useForm";
+import { useSuccess } from "@/hooks/forms/useSuccess";
+import { usePlayersListCreate } from "@/hooks/players/usePlayersListCreate";
 import { validatePlayer as VALIDATE_PLAYER } from "@/utils/validatePlayer";
 import { PlayerFormFieldset } from "@/components/Forms/players/PlayerFormFieldset";
-import { usePlayersListCreate } from "@/hooks/players/usePlayersListCreate";
-import { useSuccess } from "@/hooks/forms/useSuccess";
 
 export const PlayerForm = ({ onNewPlayer }: PlayerFormProps) => {
+	const { API_GET } = useApi();
 	const { success, setSuccess } = useSuccess();
 	const { CREATE_PLAYER, error, loading, data } = usePlayersListCreate();
 	const [submitClicked, setSubmitClicked] = useState<boolean>(false);
@@ -23,6 +30,19 @@ export const PlayerForm = ({ onNewPlayer }: PlayerFormProps) => {
 		belongToTeam: [],
 		team: [],
 	});
+	const [teamId, setTeamId] = useState<string>("");
+	const GET_TEAM_ID = async () => {
+		const teams = await API_GET<Team[]>(`teams/`);
+		teams.map((team) => {
+			if (team.name === formState.team) return setTeamId(team.id);
+		});
+	};
+
+	useEffect(() => {
+		if (formState.belongToTeam === "yes" && formState.team) {
+			GET_TEAM_ID();
+		}
+	}, [formState.team]);
 
 	useEffect(() => {
 		if (submitClicked) {
@@ -50,6 +70,7 @@ export const PlayerForm = ({ onNewPlayer }: PlayerFormProps) => {
 				formState.lastname,
 				formState.belongToTeam,
 				formState.team,
+				teamId,
 			);
 			setFormState({
 				name: "",
@@ -57,6 +78,7 @@ export const PlayerForm = ({ onNewPlayer }: PlayerFormProps) => {
 				belongToTeam: "",
 				team: "",
 			});
+			setTeamId("");
 			setSubmitClicked(false);
 			console.log("Form is being sent!");
 		}

@@ -11,12 +11,14 @@ export const usePlayersListCreate = () => {
 		lastname: string,
 		belongToTeam: string,
 		team: string,
+		teamId: string,
 	) => {
 		const response = await API_POST<Player, PlayerDto>(`players`, {
 			name,
 			lastname,
 			belongToTeam,
 			team,
+			teamId,
 		});
 		if (response) setData(response);
 	};

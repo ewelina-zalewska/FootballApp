@@ -10,6 +10,5 @@ export const useTeamsListDelete = () => {
 		const response = await API_DELETE<Team>(`teams/${id}`);
 		if (response) setData(response);
 	};
-
 	return { DELETE_TEAM, data, error, loading };
 };

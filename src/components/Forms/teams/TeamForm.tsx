@@ -2,9 +2,9 @@
 import { TeamFormValue, TeamFormErrors, TeamFormProps } from "@/types";
 import { TeamFormFieldset } from "@/components/Forms/teams/TeamFormFieldset";
 import { useForm } from "@/hooks/forms/useForm";
-import { validateTeam as VALIDATE_TEAM } from "@/utils/validateTeam";
 import { useTeamsListCreate } from "@/hooks/teams/useTeamsListCreate";
 import { useSuccess } from "@/hooks/forms/useSuccess";
+import { validateTeam as VALIDATE_TEAM } from "@/utils/validateTeam";
 
 export const TeamForm = ({ onNewTeam }: TeamFormProps) => {
 	const { success, setSuccess } = useSuccess();

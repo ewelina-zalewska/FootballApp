@@ -1,10 +1,10 @@
 ﻿import { useRef } from "react";
 import { GameFormFieldsetProps } from "@/types";
+import { getDate } from "@/utils/getDate";
 import { useFocus } from "@/hooks/forms/useFocus";
 import { TheField } from "@/components/Shared/TheField";
 import { TheSelect } from "@/components/Shared/TheSelect";
 import { TheButton } from "@/components/Shared/TheButton";
-import { getDate } from "@/utils/getDate";
 
 export const GameFormFieldset = ({
 	HANDLE_CHANGE,
@@ -18,7 +18,6 @@ export const GameFormFieldset = ({
 	const firstRef = useFocus<HTMLInputElement>();
 	const formRef = useRef<HTMLFormElement>(null);
 
-	const selectLabels = ["team1", "team2", "team3"];
 	const { now, yearBefore } = getDate();
 	const {
 		date,
@@ -75,7 +74,6 @@ export const GameFormFieldset = ({
 					name="team1"
 					errors={errors.team1}
 					value={team1}
-					labels={selectLabels}
 					legend="For"
 					onChange={HANDLE_CHANGE}
 				/>
@@ -94,7 +92,6 @@ export const GameFormFieldset = ({
 					name="team2"
 					errors={errors.team2}
 					value={team2}
-					labels={selectLabels}
 					legend="For"
 					onChange={HANDLE_CHANGE}
 				/>
