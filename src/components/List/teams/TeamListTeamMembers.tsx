@@ -1,29 +1,22 @@
-﻿import { useEffect, useState } from "react";
-import { TeamMember, TeamMembers, TeamMembersProps } from "@/types";
-import { useApi } from "@/hooks/useApi";
+﻿import { TeamMembersProps } from "@/types";
+import { useGetTeamsMembersQuery } from "@/hooks/react-query/teams/useGetTeamsMembersQuery";
+import { TeamListTeamMember } from "@/components/List/teams/TeamListTeamMember";
+import { TeamFormPlayers } from "@/components/Forms/teams/TeamFormPlayers";
 
 export const TeamListTeamMembers = ({ teamId }: TeamMembersProps) => {
-	const { API_GET } = useApi();
-	const [playersData, setPlayersData] = useState<TeamMember[]>([]);
+	const { data, error, isLoading } = useGetTeamsMembersQuery(teamId);
 
-	const GET_PLAYERS = async () => {
-		const playersData = await API_GET<TeamMembers>(
-			`teams/${teamId}?_embed=players`,
-		);
-
-		if (playersData) setPlayersData(playersData.players);
-	};
-
-	useEffect(() => {
-		GET_PLAYERS();
-	}, []);
+	if (error) return <p>{error.message}</p>;
+	if (isLoading) return <p>Loading players...</p>;
+	if (!data) return null;
 	return (
-		<ul>
-			{playersData.map((playerData) => (
-				<li key={playerData.id}>
-					{playerData.name} {playerData.lastname}
-				</li>
-			))}
-		</ul>
+		<>
+			<TeamFormPlayers teamId={teamId} />
+			<ul>
+				{data.map((playerData) => (
+					<TeamListTeamMember key={playerData.id} element={playerData} />
+				))}
+			</ul>
+		</>
 	);
 };

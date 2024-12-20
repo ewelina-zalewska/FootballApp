@@ -1,18 +1,11 @@
-﻿import { useState } from "react";
-
-const API_BASE = import.meta.env.VITE_API_URL;
+﻿const API_BASE = import.meta.env.VITE_API_URL;
 
 export const useApi = () => {
-	const [loading, setLoading] = useState<boolean>(false);
-	const [error, setError] = useState<string>("");
-
 	const CALL = async <R, P = void>(
 		url: string,
 		method: "GET" | "DELETE" | "POST",
 		body?: P,
 	) => {
-		setLoading(true);
-
 		const commonData = {
 			method,
 			headers: {
@@ -34,15 +27,11 @@ export const useApi = () => {
 				return data;
 			} else {
 				const apiError: string = await response.text();
-				setError(apiError);
-				alert(error);
-				throw new Error();
+				throw new Error(apiError);
 			}
 		} catch (e) {
 			alert(e);
-			throw new Error();
-		} finally {
-			setLoading(false);
+			throw new Error("An error occurred");
 		}
 	};
 
@@ -62,7 +51,5 @@ export const useApi = () => {
 		API_GET,
 		API_POST,
 		API_DELETE,
-		loading,
-		error,
 	};
 };

@@ -1,22 +1,22 @@
 ﻿import { SingleTeam } from "@/components/List/teams/SingleTeam";
-import { useTeamsList } from "@/hooks/teams/useTeamsList";
+import { useGetTeamsQuery } from "@/hooks/react-query/teams/useGetTeamsQuery";
 import { TeamForm } from "@/components/Forms/teams/TeamForm";
 
 export const TeamsList = () => {
-	const { data, error, loading, REMOVE_TEAM, ADD_TEAM } = useTeamsList();
+	const { data, isLoading, error } = useGetTeamsQuery();
 
-	if (loading) return <p> Loading...</p>;
-	if (error) return <p>{error}</p>;
+	if (isLoading) return <p> Loading...</p>;
+	if (error) return <p>{error.message}</p>;
 	if (!data) return null;
-	return (
-		<>
-			<TeamForm onNewTeam={ADD_TEAM} />
 
+	return (
+		<div>
+			<TeamForm />
 			<ul>
 				{data.map((element) => (
-					<SingleTeam element={element} key={element.id} remove={REMOVE_TEAM} />
+					<SingleTeam element={element} key={element.id} />
 				))}
 			</ul>
-		</>
+		</div>
 	);
 };

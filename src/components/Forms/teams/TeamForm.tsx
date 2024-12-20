@@ -1,14 +1,15 @@
 ﻿import { FormEvent, useEffect, useState } from "react";
-import { TeamFormValue, TeamFormErrors, TeamFormProps } from "@/types";
+import { TeamFormValue, TeamFormErrors } from "@/types";
 import { TeamFormFieldset } from "@/components/Forms/teams/TeamFormFieldset";
 import { useForm } from "@/hooks/forms/useForm";
-import { useTeamsListCreate } from "@/hooks/teams/useTeamsListCreate";
+
+import { useTeamsCreateMutation } from "@/hooks/react-query/teams/useTeamsCreateMutation";
 import { useSuccess } from "@/hooks/forms/useSuccess";
 import { validateTeam as VALIDATE_TEAM } from "@/utils/validateTeam";
 
-export const TeamForm = ({ onNewTeam }: TeamFormProps) => {
+export const TeamForm = () => {
 	const { success, setSuccess } = useSuccess();
-	const { CREATE_TEAM, error, loading, data } = useTeamsListCreate();
+	const { mutate: CREATE_TEAM, isPending, error } = useTeamsCreateMutation();
 	const [formState, setFormState, HANDLE_CHANGE] = useForm<TeamFormValue>({
 		name: "",
 		yearOfFoundation: "",
@@ -29,11 +30,6 @@ export const TeamForm = ({ onNewTeam }: TeamFormProps) => {
 		}
 	}, [formState, submitClicked]);
 
-	useEffect(() => {
-		if (!data) return;
-		onNewTeam(data);
-	}, [data]);
-
 	const HANDLE_SUBMIT = (e: FormEvent) => {
 		e.preventDefault();
 		const { newErrors, isSuccess } = VALIDATE_TEAM(formState);
@@ -43,11 +39,7 @@ export const TeamForm = ({ onNewTeam }: TeamFormProps) => {
 		if (!success) {
 			setSubmitClicked(true);
 		} else {
-			CREATE_TEAM(
-				formState.name,
-				formState.yearOfFoundation,
-				formState.location,
-			);
+			CREATE_TEAM(formState);
 			setFormState({
 				name: "",
 				yearOfFoundation: "",
@@ -57,7 +49,7 @@ export const TeamForm = ({ onNewTeam }: TeamFormProps) => {
 			console.log("Form is being sent!");
 		}
 	};
-	if (loading) return <p>Loading...</p>;
+	if (isPending) return <p>Loading...</p>;
 	return (
 		<div>
 			<TeamFormFieldset
@@ -67,7 +59,7 @@ export const TeamForm = ({ onNewTeam }: TeamFormProps) => {
 				success={success}
 				formState={formState}
 			/>
-			{error && <p> {error}</p>}
+			{error && <p> {error.message}</p>}
 		</div>
 	);
 };

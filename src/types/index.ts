@@ -16,7 +16,6 @@ export type SelectProps = {
 	name: string;
 	errors: string[];
 	value: string;
-	labels: string[];
 	legend: string;
 	onChange: (e: FormChangeEvent) => void;
 };
@@ -53,6 +52,7 @@ export type PlayerDto = {
 	lastname: string;
 	belongToTeam: string;
 	team: string;
+	teamId: string;
 };
 
 export type Player = {
@@ -61,8 +61,20 @@ export type Player = {
 	lastname: string;
 	belongToTeam: string;
 	team: string;
+	teamId: string;
 };
 
+export type TeamMember = Player & {
+	teamId: string;
+};
+
+export type TeamMembers = Player & {
+	players: TeamMember[];
+};
+
+export type TeamMembersProps = {
+	teamId: string;
+};
 export type PlayerFormProps = {
 	onNewPlayer: (player: Player) => void;
 };

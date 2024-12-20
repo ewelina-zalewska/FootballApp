@@ -1,15 +1,14 @@
-﻿import { useEffect, useState } from "react";
+﻿import { useState } from "react";
 import { Team } from "@/types";
-import { useTeamsListDelete } from "@/hooks/teams/useTeamsListDelete";
+import { useTeamsDeleteMutation } from "@/hooks/react-query/teams/useTeamsDeleteMutation";
 import { TeamListTeamMembers } from "@/components/List/teams/TeamListTeamMembers";
 
 type SingleTeamProps = {
-	remove: (id: string) => void;
 	element: Team;
 };
 
-export const SingleTeam = ({ element, remove }: SingleTeamProps) => {
-	const { loading, error, DELETE_TEAM, data } = useTeamsListDelete();
+export const SingleTeam = ({ element }: SingleTeamProps) => {
+	const { isPending, error, mutate: DELETE_TEAM } = useTeamsDeleteMutation();
 	const [showPlayersData, setShowPlayersData] = useState<boolean>(false);
 
 	const onDelete = () => {
@@ -19,25 +18,19 @@ export const SingleTeam = ({ element, remove }: SingleTeamProps) => {
 	const TOGGLE_PLAYERSDATA = () => {
 		setShowPlayersData((prevPlayersdata) => !prevPlayersdata);
 	};
-
-	useEffect(() => {
-		if (!data) return;
-		remove(data.id);
-	}, [data]);
-
 	return (
 		<>
 			<li>
 				<p>{element.name}</p>
 				<p>{element.yearOfFoundation}</p>
 				<p>{element.location}</p>
-				<button disabled={loading} onClick={onDelete}>
+				<button disabled={isPending} onClick={onDelete}>
 					DELETE
 				</button>
-				<button disabled={loading} onClick={TOGGLE_PLAYERSDATA}>
+				<button disabled={isPending} onClick={TOGGLE_PLAYERSDATA}>
 					SHOW DETAILS
 				</button>
-				{error && <p>{error}</p>}
+				{error && <p>{error.message}</p>}
 			</li>
 			{showPlayersData && <TeamListTeamMembers teamId={element.id} />}
 		</>
