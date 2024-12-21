@@ -43,15 +43,11 @@ export type FormChangeEvent = ChangeEvent<HTMLInputElement | HTMLSelectElement>;
 export type PlayerFormValue = {
 	name: string;
 	lastname: string;
-	belongToTeam: string;
-	team: string;
 };
 
 export type PlayerDto = {
 	name: string;
 	lastname: string;
-	belongToTeam: string;
-	team: string;
 	teamId: string;
 };
 
@@ -59,9 +55,6 @@ export type Player = {
 	id: string;
 	name: string;
 	lastname: string;
-	belongToTeam: string;
-	team: string;
-	teamId: string;
 };
 
 export type TeamMember = Player & {

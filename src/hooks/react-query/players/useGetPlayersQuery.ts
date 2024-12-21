@@ -1,17 +1,19 @@
 ﻿import { Player } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-const API_BASE = import.meta.env.VITE_API_URL;
+import { useApi } from "@/hooks/useApi";
 
 export const useGetPlayersQuery = () => {
-	const { data } = useQuery({
+	const { API_GET } = useApi();
+	const { data, isLoading, error } = useQuery({
 		queryKey: ["players"],
 		queryFn: async () => {
-			const response = await fetch(`${API_BASE}players`);
-			return response.json() as Promise<Player[]>;
+			return API_GET<Player[]>("players");
 		},
 	});
 
 	return {
 		data,
+		isLoading,
+		error,
 	};
 };

@@ -1,48 +1,41 @@
 ﻿import { FormEvent, useEffect, useState } from "react";
-import {
-	PlayerFormValue,
-	PlayerFormErrors,
-	PlayerFormProps,
-	Team,
-} from "@/types";
-import { useApi } from "@/hooks/useApi";
+import { PlayerFormValue, PlayerFormErrors } from "@/types";
 import { useForm } from "@/hooks/forms/useForm";
 import { useSuccess } from "@/hooks/forms/useSuccess";
-import { usePlayersListCreate } from "@/hooks/players/usePlayersListCreate";
+import { usePlayersCreateMutation } from "@/hooks/react-query/players/usePlayersCreateMutation";
 import { validatePlayer as VALIDATE_PLAYER } from "@/utils/validatePlayer";
 import { PlayerFormFieldset } from "@/components/Forms/players/PlayerFormFieldset";
 
-export const PlayerForm = ({ onNewPlayer }: PlayerFormProps) => {
-	const { API_GET } = useApi();
+export const PlayerForm = () => {
 	const { success, setSuccess } = useSuccess();
-	const { CREATE_PLAYER, error, loading, data } = usePlayersListCreate();
 	const [submitClicked, setSubmitClicked] = useState<boolean>(false);
+	const {
+		mutate: CREATE_PLAYER,
+		isPending,
+		error,
+	} = usePlayersCreateMutation();
 	const [formState, setFormState, HANDLE_CHANGE] = useForm<PlayerFormValue>({
 		name: "",
 		lastname: "",
-		belongToTeam: "",
-		team: "",
 	});
 
 	const [errors, setErrors] = useState<PlayerFormErrors>({
 		name: [],
 		lastname: [],
-		belongToTeam: [],
-		team: [],
 	});
-	const [teamId, setTeamId] = useState<string>("");
-	const GET_TEAM_ID = async () => {
-		const teams = await API_GET<Team[]>(`teams/`);
-		teams.map((team) => {
-			if (team.name === formState.team) return setTeamId(team.id);
-		});
-	};
+	// const [teamId, setTeamId] = useState<string>("");
+	// const GET_TEAM_ID = async () => {
+	// 	const teams = await API_GET<Team[]>(`teams/`);
+	// 	teams.map((team) => {
+	// 		if (team.name === formState.team) return setTeamId(team.id);
+	// 	});
+	// };
 
-	useEffect(() => {
-		if (formState.belongToTeam === "yes" && formState.team) {
-			GET_TEAM_ID();
-		}
-	}, [formState.team]);
+	// useEffect(() => {
+	// 	if (formState.belongToTeam === "yes" && formState.team) {
+	// 		GET_TEAM_ID();
+	// 	}
+	// }, [formState.team]);
 
 	useEffect(() => {
 		if (submitClicked) {
@@ -50,11 +43,6 @@ export const PlayerForm = ({ onNewPlayer }: PlayerFormProps) => {
 			setErrors(newErrors);
 		}
 	}, [formState, submitClicked]);
-
-	useEffect(() => {
-		if (!data) return;
-		onNewPlayer(data);
-	}, [data]);
 
 	const HANDLE_SUBMIT = (e: FormEvent) => {
 		e.preventDefault();
@@ -65,25 +53,21 @@ export const PlayerForm = ({ onNewPlayer }: PlayerFormProps) => {
 		if (!success) {
 			setSubmitClicked(true);
 		} else {
-			CREATE_PLAYER(
-				formState.name,
-				formState.lastname,
-				formState.belongToTeam,
-				formState.team,
-				teamId,
-			);
+			CREATE_PLAYER({
+				name: formState.name,
+				lastname: formState.lastname,
+				teamId: "",
+			});
 			setFormState({
 				name: "",
 				lastname: "",
-				belongToTeam: "",
-				team: "",
 			});
-			setTeamId("");
+			// setTeamId("");
 			setSubmitClicked(false);
 			console.log("Form is being sent!");
 		}
 	};
-	if (loading) return <p>Loading...</p>;
+	if (isPending) return <p>Loading...</p>;
 	return (
 		<>
 			<PlayerFormFieldset
@@ -93,7 +77,7 @@ export const PlayerForm = ({ onNewPlayer }: PlayerFormProps) => {
 				success={success}
 				formState={formState}
 			/>
-			{error && <p>{error}</p>}
+			{error && <p>{error.message}</p>}
 		</>
 	);
 };
