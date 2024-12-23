@@ -18,6 +18,8 @@ export type SelectProps = {
 	value: string;
 	legend: string;
 	onChange: (e: FormChangeEvent) => void;
+	onClick: () => Promise<void>;
+	data: Team[];
 };
 
 //errors
@@ -48,6 +50,7 @@ export type PlayerFormValue = {
 export type PlayerDto = {
 	name: string;
 	lastname: string;
+	team: string;
 	teamId: string;
 };
 
@@ -55,6 +58,7 @@ export type Player = {
 	id: string;
 	name: string;
 	lastname: string;
+	team: string;
 };
 
 export type TeamMember = Player & {
@@ -67,17 +71,24 @@ export type TeamMembers = Player & {
 
 export type TeamMembersProps = {
 	teamId: string;
+	teamName: string;
+};
+
+export type TeamFormPlayersFieldsetProps = {
+	HANDLE_SUBMIT: (e: FormEvent) => void;
+	availablePlayers: TeamMember[];
+	showAvailablePlayers: boolean;
+	TOGGLE_SHOW_AVAILABLE_PLAYERS: () => void;
+	SET_AVAILABLE_PLAYER: () => void;
+	selectedPlayerId: string;
+	SELECT_PLAYER_ID: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+	formState: PlayerFormValue;
+	success: boolean;
+	isLoading: boolean;
+	error: Error | null;
 };
 export type PlayerFormProps = {
 	onNewPlayer: (player: Player) => void;
-};
-
-export type PlayerFormFieldsetProps = {
-	HANDLE_CHANGE: (e: FormChangeEvent) => void;
-	HANDLE_SUBMIT: (e: FormEvent) => void;
-	errors: PlayerFormErrors;
-	success: boolean;
-	formState: PlayerFormValue;
 };
 
 //Games

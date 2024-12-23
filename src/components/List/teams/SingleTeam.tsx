@@ -32,7 +32,9 @@ export const SingleTeam = ({ element }: SingleTeamProps) => {
 				</button>
 				{error && <p>{error.message}</p>}
 			</li>
-			{showPlayersData && <TeamListTeamMembers teamId={element.id} />}
+			{showPlayersData && (
+				<TeamListTeamMembers teamId={element.id} teamName={element.name} />
+			)}
 		</>
 	);
 };

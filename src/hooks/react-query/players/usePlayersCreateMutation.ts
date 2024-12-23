@@ -7,11 +7,12 @@ export const usePlayersCreateMutation = () => {
 	const queryClient = useQueryClient();
 
 	const { mutate, isPending, error, data } = useMutation({
-		mutationKey: ["players"],
-		mutationFn: async ({ name, lastname, teamId }: PlayerDto) => {
+		mutationKey: ["players", "create"],
+		mutationFn: async ({ name, lastname, team, teamId }: PlayerDto) => {
 			return API_POST<Player, PlayerDto>(`players`, {
 				name,
 				lastname,
+				team,
 				teamId,
 			});
 		},

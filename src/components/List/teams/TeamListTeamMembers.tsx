@@ -3,7 +3,7 @@ import { useGetTeamsMembersQuery } from "@/hooks/react-query/teams/useGetTeamsMe
 import { TeamListTeamMember } from "@/components/List/teams/TeamListTeamMember";
 import { TeamFormPlayers } from "@/components/Forms/teams/TeamFormPlayers";
 
-export const TeamListTeamMembers = ({ teamId }: TeamMembersProps) => {
+export const TeamListTeamMembers = ({ teamId, teamName }: TeamMembersProps) => {
 	const { data, error, isLoading } = useGetTeamsMembersQuery(teamId);
 
 	if (error) return <p>{error.message}</p>;
@@ -11,7 +11,7 @@ export const TeamListTeamMembers = ({ teamId }: TeamMembersProps) => {
 	if (!data) return null;
 	return (
 		<>
-			<TeamFormPlayers teamId={teamId} />
+			<TeamFormPlayers teamId={teamId} teamName={teamName} />
 			<ul>
 				{data.map((playerData) => (
 					<TeamListTeamMember key={playerData.id} element={playerData} />

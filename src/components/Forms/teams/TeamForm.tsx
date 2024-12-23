@@ -32,6 +32,7 @@ export const TeamForm = () => {
 
 	const HANDLE_SUBMIT = (e: FormEvent) => {
 		e.preventDefault();
+
 		const { newErrors, isSuccess } = VALIDATE_TEAM(formState);
 		setErrors(newErrors);
 		setSuccess(isSuccess);

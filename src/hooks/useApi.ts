@@ -3,9 +3,9 @@
 export const useApi = () => {
 	const CALL = async <R, P = void>(
 		url: string,
-		method: "GET" | "DELETE" | "POST",
-		body?: P,
-	) => {
+		method: "GET" | "DELETE" | "POST" | "PUT",
+		payload?: P,
+	): Promise<R> => {
 		const commonData = {
 			method,
 			headers: {
@@ -13,10 +13,10 @@ export const useApi = () => {
 			},
 		};
 
-		const reqData = body
+		const reqData = payload
 			? {
 					...commonData,
-					body: JSON.stringify(body),
+					body: JSON.stringify(payload),
 				}
 			: commonData;
 
@@ -31,7 +31,7 @@ export const useApi = () => {
 			}
 		} catch (e) {
 			alert(e);
-			throw new Error("An error occurred");
+			throw new Error("Failed to fetch api request");
 		}
 	};
 
@@ -47,9 +47,14 @@ export const useApi = () => {
 		return await CALL<R>(url, "DELETE");
 	};
 
+	const API_PUT = async <R, P>(url: string, payload: P) => {
+		return await CALL<R, P>(url, "PUT", payload);
+	};
+
 	return {
 		API_GET,
 		API_POST,
 		API_DELETE,
+		API_PUT,
 	};
 };

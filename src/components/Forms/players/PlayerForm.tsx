@@ -23,19 +23,6 @@ export const PlayerForm = () => {
 		name: [],
 		lastname: [],
 	});
-	// const [teamId, setTeamId] = useState<string>("");
-	// const GET_TEAM_ID = async () => {
-	// 	const teams = await API_GET<Team[]>(`teams/`);
-	// 	teams.map((team) => {
-	// 		if (team.name === formState.team) return setTeamId(team.id);
-	// 	});
-	// };
-
-	// useEffect(() => {
-	// 	if (formState.belongToTeam === "yes" && formState.team) {
-	// 		GET_TEAM_ID();
-	// 	}
-	// }, [formState.team]);
 
 	useEffect(() => {
 		if (submitClicked) {
@@ -56,6 +43,7 @@ export const PlayerForm = () => {
 			CREATE_PLAYER({
 				name: formState.name,
 				lastname: formState.lastname,
+				team: "",
 				teamId: "",
 			});
 			setFormState({
