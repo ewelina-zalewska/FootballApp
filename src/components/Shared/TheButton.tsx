@@ -2,18 +2,18 @@
 
 type buttonProps = {
 	type: "submit" | "reset" | "button";
-	btnName: string;
+	btnLabel: string;
 	onClick: MouseEventHandler<HTMLButtonElement>;
 };
 
 export const TheButton = forwardRef(
 	(
-		{ type, btnName, onClick }: buttonProps,
+		{ type, btnLabel, onClick }: buttonProps,
 		ref: ForwardedRef<HTMLButtonElement>,
 	) => {
 		return (
 			<button ref={ref} type={type} onClick={onClick}>
-				{btnName}
+				{btnLabel}
 			</button>
 		);
 	},

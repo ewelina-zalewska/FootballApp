@@ -7,7 +7,7 @@ export const PlayersList = () => {
 
 	if (isLoading) return <p> Loading...</p>;
 	if (error) return <p>{error.message}</p>;
-	if (!data) return null;
+	if (!data) return <p> No data...</p>;
 	return (
 		<>
 			<PlayerForm />

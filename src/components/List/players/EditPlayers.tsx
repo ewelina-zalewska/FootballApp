@@ -1,22 +1,27 @@
 ﻿import { FormEvent, useEffect, useState } from "react";
-import { PlayerFormValue, PlayerFormErrors } from "@/types";
+import { PlayerFormValue, PlayerFormErrors, TeamMember } from "@/types";
+import { useUpdatePlayerMutation } from "@/hooks/react-query/players/useUpdatePlayerMutation";
 import { useForm } from "@/hooks/forms/useForm";
 import { useSuccess } from "@/hooks/forms/useSuccess";
-import { usePlayersCreateMutation } from "@/hooks/react-query/players/usePlayersCreateMutation";
 import { validatePlayer as VALIDATE_PLAYER } from "@/utils/validatePlayer";
 import { PlayerFormFieldset } from "@/components/Forms/players/PlayerFormFieldset";
 
-export const PlayerForm = () => {
-	const { success, setSuccess } = useSuccess();
-	const [submitClicked, setSubmitClicked] = useState<boolean>(false);
+type EditPlayers = {
+	player: TeamMember;
+};
+
+export const EditPlayers = ({ player }: EditPlayers) => {
 	const {
-		mutate: CREATE_PLAYER,
+		mutate: EDIT_PLAYER,
 		isPending,
 		error,
-	} = usePlayersCreateMutation();
+	} = useUpdatePlayerMutation(player.id);
+	const { success, setSuccess } = useSuccess();
+	const [submitClicked, setSubmitClicked] = useState<boolean>(false);
+
 	const [formState, setFormState, HANDLE_CHANGE] = useForm<PlayerFormValue>({
-		name: "",
-		lastname: "",
+		name: player.name,
+		lastname: player.lastname,
 	});
 
 	const [errors, setErrors] = useState<PlayerFormErrors>({
@@ -40,17 +45,17 @@ export const PlayerForm = () => {
 		if (!success) {
 			setSubmitClicked(true);
 		} else {
-			CREATE_PLAYER({
+			EDIT_PLAYER({
 				name: formState.name,
 				lastname: formState.lastname,
-				team: "",
-				teamId: "",
+				team: player.team,
+				teamId: player.teamId,
 			});
+
 			setFormState({
-				name: "",
-				lastname: "",
+				name: formState.name,
+				lastname: formState.lastname,
 			});
-			// setTeamId("");
 			setSubmitClicked(false);
 			console.log("Form is being sent!");
 		}
@@ -64,7 +69,7 @@ export const PlayerForm = () => {
 				errors={errors}
 				success={success}
 				formState={formState}
-				fieldName="name"
+				fieldName="edit"
 			/>
 			{error && <p>{error.message}</p>}
 		</>

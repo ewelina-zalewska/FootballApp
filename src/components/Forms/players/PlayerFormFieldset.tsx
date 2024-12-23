@@ -10,6 +10,7 @@ export const PlayerFormFieldset = ({
 	errors,
 	success,
 	formState,
+	fieldName,
 }: PlayerFormFieldsetProps) => {
 	const firstRef = useFocus<HTMLInputElement>();
 	const buttonRef = useRef<HTMLButtonElement>(null);
@@ -19,6 +20,13 @@ export const PlayerFormFieldset = ({
 
 	const SEND_FORM = () => formRef.current?.requestSubmit();
 
+	const nameLabel =
+		fieldName === "edit" ? "Change first name" : "Add first name";
+	const lastnameLabel =
+		fieldName === "edit" ? "Change last name" : "Add last name";
+
+	const btnLabel = fieldName === "edit" ? "CHANGE" : "ADD PLAYER";
+
 	return (
 		<form ref={formRef} onSubmit={HANDLE_SUBMIT}>
 			<TheField
@@ -27,7 +35,7 @@ export const PlayerFormFieldset = ({
 				name="name"
 				errors={errors.name}
 				value={name}
-				label="Add first name"
+				label={nameLabel}
 				onChange={HANDLE_CHANGE}
 			/>
 			<TheField
@@ -35,13 +43,13 @@ export const PlayerFormFieldset = ({
 				name="lastname"
 				errors={errors.lastname}
 				value={lastname}
-				label="Add last name"
+				label={lastnameLabel}
 				onChange={HANDLE_CHANGE}
 			/>
 
 			<TheButton
 				type="submit"
-				btnName="add player"
+				btnLabel={btnLabel}
 				ref={buttonRef}
 				onClick={SEND_FORM}
 			/>

@@ -50,7 +50,7 @@ export const TeamFormPlayersFieldset = ({
 					</select>
 					<TheButton
 						type="submit"
-						btnName="add player"
+						btnLabel="ADD PLAYER"
 						ref={buttonRef}
 						onClick={SEND_FORM}
 					/>
