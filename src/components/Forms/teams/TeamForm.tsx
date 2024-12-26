@@ -59,6 +59,7 @@ export const TeamForm = () => {
 				errors={errors}
 				success={success}
 				formState={formState}
+				fieldName="name"
 			/>
 			{error && <p> {error.message}</p>}
 		</div>

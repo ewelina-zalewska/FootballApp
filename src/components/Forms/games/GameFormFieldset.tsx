@@ -1,10 +1,11 @@
-﻿import { useRef } from "react";
-import { GameFormFieldsetProps } from "@/types";
+﻿import { useRef, useState } from "react";
+import { GameFormFieldsetProps, Team } from "@/types";
 import { getDate } from "@/utils/getDate";
 import { useFocus } from "@/hooks/forms/useFocus";
 import { TheField } from "@/components/Shared/TheField";
-import { TheSelect } from "@/components/Shared/TheSelect";
+import { TeamSelect } from "@/components/Shared/TeamSelect";
 import { TheButton } from "@/components/Shared/TheButton";
+import { useApi } from "@/hooks/useApi";
 
 export const GameFormFieldset = ({
 	HANDLE_CHANGE,
@@ -29,6 +30,14 @@ export const GameFormFieldset = ({
 		team2,
 		numberOfGoals_team2,
 	} = formState;
+
+	const { API_GET } = useApi();
+	const [availableTeams, setAvailableTeams] = useState<Team[]>([]);
+
+	const HANDLE_CLICK = async () => {
+		const availableTeams = await API_GET<Team[]>(`teams`);
+		setAvailableTeams(availableTeams);
+	};
 
 	const SEND_FORM = () => formRef.current?.requestSubmit();
 	return (
@@ -70,12 +79,14 @@ export const GameFormFieldset = ({
 			/>
 
 			<fieldset>
-				<TheSelect
+				<TeamSelect
 					name="team1"
 					errors={errors.team1}
 					value={team1}
 					legend="For"
 					onChange={HANDLE_CHANGE}
+					onClick={HANDLE_CLICK}
+					data={availableTeams}
 				/>
 				<TheField
 					type="number"
@@ -88,12 +99,14 @@ export const GameFormFieldset = ({
 			</fieldset>
 
 			<fieldset>
-				<TheSelect
+				<TeamSelect
 					name="team2"
 					errors={errors.team2}
 					value={team2}
 					legend="For"
 					onChange={HANDLE_CHANGE}
+					onClick={HANDLE_CLICK}
+					data={availableTeams}
 				/>
 				<TheField
 					type="number"
@@ -109,7 +122,7 @@ export const GameFormFieldset = ({
 			</div>
 			<TheButton
 				type="submit"
-				btnName="add game"
+				btnLabel="ADD GAME"
 				ref={buttonRef}
 				onClick={SEND_FORM}
 			/>

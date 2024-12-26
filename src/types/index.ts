@@ -87,6 +87,14 @@ export type TeamFormPlayersFieldsetProps = {
 	isLoading: boolean;
 	error: Error | null;
 };
+export type PlayerFormFieldsetProps = {
+	HANDLE_CHANGE: (e: FormChangeEvent) => void;
+	HANDLE_SUBMIT: (e: FormEvent) => void;
+	errors: PlayerFormErrors;
+	success: boolean;
+	formState: PlayerFormValue;
+	fieldName: string;
+};
 export type PlayerFormProps = {
 	onNewPlayer: (player: Player) => void;
 };
@@ -168,4 +176,5 @@ export type TeamFormFieldsetProps = {
 	errors: TeamFormErrors;
 	success: boolean;
 	formState: TeamFormValue;
+	fieldName: string;
 };

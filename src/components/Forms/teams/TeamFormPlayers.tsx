@@ -53,18 +53,20 @@ export const TeamFormPlayers = ({ teamId, teamName }: TeamMembersProps) => {
 		setShowAvailablePlayers(!showAvailablePlayers);
 
 	return (
-		<TeamFormPlayersFieldset
-			HANDLE_SUBMIT={HANDLE_SUBMIT}
-			availablePlayers={availablePlayers}
-			showAvailablePlayers={showAvailablePlayers}
-			TOGGLE_SHOW_AVAILABLE_PLAYERS={TOGGLE_SHOW_AVAILABLE_PLAYERS}
-			SET_AVAILABLE_PLAYER={SET_AVAILABLE_PLAYER}
-			selectedPlayerId={selectedPlayerId}
-			SELECT_PLAYER_ID={SELECT_PLAYER_ID}
-			formState={formState}
-			success={success}
-			isLoading={isLoading}
-			error={error}
-		/>
+		<>
+			<TeamFormPlayersFieldset
+				HANDLE_SUBMIT={HANDLE_SUBMIT}
+				availablePlayers={availablePlayers}
+				showAvailablePlayers={showAvailablePlayers}
+				TOGGLE_SHOW_AVAILABLE_PLAYERS={TOGGLE_SHOW_AVAILABLE_PLAYERS}
+				SET_AVAILABLE_PLAYER={SET_AVAILABLE_PLAYER}
+				selectedPlayerId={selectedPlayerId}
+				SELECT_PLAYER_ID={SELECT_PLAYER_ID}
+				formState={formState}
+				success={success}
+				isLoading={isLoading}
+				error={error}
+			/>
+		</>
 	);
 };

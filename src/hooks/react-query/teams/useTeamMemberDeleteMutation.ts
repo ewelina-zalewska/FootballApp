@@ -8,8 +8,8 @@ export const useTeamMemberDeleteMutation = () => {
 
 	const { mutate, isPending, error, data } = useMutation({
 		mutationKey: ["players"],
-		mutationFn: async (teamId: string) => {
-			return API_DELETE<TeamMember>(`players/${teamId}`);
+		mutationFn: async (playerId: string) => {
+			return API_DELETE<TeamMember>(`players/${playerId}`);
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["players"] });

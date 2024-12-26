@@ -1,40 +1,47 @@
-﻿import { useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { Team } from "@/types";
 import { useTeamsDeleteMutation } from "@/hooks/react-query/teams/useTeamsDeleteMutation";
-import { TeamListTeamMembers } from "@/components/List/teams/TeamListTeamMembers";
+import { EditTeams } from "./EditTeams";
+import { DeleteTeamConfirmation } from "@/components/List/teams/DeleteTeamConfirmation";
+import { TeamListTeamMembers } from "./TeamListTeamMembers";
 
 type SingleTeamProps = {
 	element: Team;
 };
 
 export const SingleTeam = ({ element }: SingleTeamProps) => {
-	const { isPending, error, mutate: DELETE_TEAM } = useTeamsDeleteMutation();
-	const [showPlayersData, setShowPlayersData] = useState<boolean>(false);
+	const [mode, setMode] = useState<"edit" | "delete" | "none">("none");
+	const { isPending, error } = useTeamsDeleteMutation();
 
-	const onDelete = () => {
-		DELETE_TEAM(element.id);
-	};
+	const toggleEditMode = () =>
+		setMode((prevMode) => (prevMode === "edit" ? "none" : "edit"));
 
-	const TOGGLE_PLAYERSDATA = () => {
-		setShowPlayersData((prevPlayersdata) => !prevPlayersdata);
-	};
+	const toggleDeleteMode = () =>
+		setMode((prevMode) => (prevMode === "delete" ? "none" : "delete"));
+
+	useEffect(() => {
+		setMode("none");
+	}, [element]);
+
 	return (
 		<>
 			<li>
 				<p>{element.name}</p>
 				<p>{element.yearOfFoundation}</p>
 				<p>{element.location}</p>
-				<button disabled={isPending} onClick={onDelete}>
-					DELETE
+				<button disabled={isPending} onClick={toggleEditMode}>
+					{mode === "edit" ? "CANCEL" : "EDIT"}
 				</button>
-				<button disabled={isPending} onClick={TOGGLE_PLAYERSDATA}>
-					SHOW DETAILS
+				<button disabled={isPending} onClick={toggleDeleteMode}>
+					{mode === "delete" ? "CANCEL" : "DELETE"}
 				</button>
-				{error && <p>{error.message}</p>}
 			</li>
-			{showPlayersData && (
-				<TeamListTeamMembers teamId={element.id} teamName={element.name} />
+			{mode === "edit" && <EditTeams team={element} />}
+			{mode === "delete" && (
+				<DeleteTeamConfirmation onCancel={toggleDeleteMode} team={element} />
 			)}
+			<TeamListTeamMembers teamId={element.id} teamName={element.name} />
+			{error && <p>{error.message}</p>}
 		</>
 	);
 };

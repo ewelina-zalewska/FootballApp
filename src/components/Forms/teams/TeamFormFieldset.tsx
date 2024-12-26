@@ -11,6 +11,7 @@ export const TeamFormFieldset = ({
 	errors,
 	success,
 	formState,
+	fieldName,
 }: TeamFormFieldsetProps) => {
 	const buttonRef = useRef<HTMLButtonElement | null>(null);
 	const firstRef = useFocus<HTMLInputElement>();
@@ -20,6 +21,16 @@ export const TeamFormFieldset = ({
 	const { now, year1900 } = getDate();
 
 	const SEND_FORM = () => formRef.current?.requestSubmit();
+
+	const nameLabel = fieldName === "edit" ? "Change team name" : "Add team name";
+
+	const foundingDateLabel =
+		fieldName === "edit" ? "Change founding date" : "Add founding date";
+
+	const locationLabel =
+		fieldName === "edit" ? "Change team location" : "Add team location";
+
+	const btnLabel = fieldName === "edit" ? "CHANGE" : "ADD TEAM";
 	return (
 		<form ref={formRef} onSubmit={HANDLE_SUBMIT}>
 			<TheField
@@ -28,7 +39,7 @@ export const TeamFormFieldset = ({
 				name="name"
 				errors={errors.name}
 				value={name}
-				label="Add team name"
+				label={nameLabel}
 				onChange={HANDLE_CHANGE}
 			/>
 			<TheField
@@ -36,7 +47,7 @@ export const TeamFormFieldset = ({
 				name="yearOfFoundation"
 				errors={errors.yearOfFoundation}
 				value={yearOfFoundation}
-				label="Add founding date"
+				label={foundingDateLabel}
 				onChange={HANDLE_CHANGE}
 				minDate={year1900}
 				maxDate={now}
@@ -46,12 +57,12 @@ export const TeamFormFieldset = ({
 				name="location"
 				errors={errors.location}
 				value={location}
-				label="Add team location"
+				label={locationLabel}
 				onChange={HANDLE_CHANGE}
 			/>
 			<TheButton
 				type="submit"
-				btnLabel="ADD TEAM"
+				btnLabel={btnLabel}
 				ref={buttonRef}
 				onClick={SEND_FORM}
 			/>

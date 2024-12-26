@@ -3,7 +3,7 @@
 export const useApi = () => {
 	const CALL = async <R, P = void>(
 		url: string,
-		method: "GET" | "DELETE" | "POST" | "PUT",
+		method: "GET" | "DELETE" | "POST" | "PUT" | "PATCH",
 		payload?: P,
 	): Promise<R> => {
 		const commonData = {
@@ -51,10 +51,15 @@ export const useApi = () => {
 		return await CALL<R, P>(url, "PUT", payload);
 	};
 
+	const API_PATCH = async <R, P>(url: string, payload: P) => {
+		return await CALL<R, P>(url, "PATCH", payload);
+	};
+
 	return {
 		API_GET,
 		API_POST,
 		API_DELETE,
 		API_PUT,
+		API_PATCH,
 	};
 };
