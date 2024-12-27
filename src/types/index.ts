@@ -141,6 +141,9 @@ export type GameFormFieldsetProps = {
 	fieldName: string;
 };
 
+export type SingleGameProps = {
+	element: Game;
+};
 //Teams
 export type TeamFormValue = {
 	name: string;
