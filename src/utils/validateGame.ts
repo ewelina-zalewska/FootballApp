@@ -2,16 +2,16 @@
 
 export const validateGame = (GameForm: GameFormValue) => {
 	let isSuccess = true;
-	const { title, location, duration, team1, team2 } = GameForm;
+	const { title, location, duration, teamId1, teamId2 } = GameForm;
 
 	const newErrors: GameFormErrors = {
 		date: [],
 		title: [],
 		location: [],
 		duration: [],
-		team1: [],
+		teamId1: [],
 		numberOfGoals_team1: [],
-		team2: [],
+		teamId2: [],
 		numberOfGoals_team2: [],
 	};
 
@@ -33,14 +33,14 @@ export const validateGame = (GameForm: GameFormValue) => {
 		);
 	}
 
-	if (!team1.trim()) {
-		newErrors.team1.push("Team name is required.");
+	if (!teamId1.trim()) {
+		newErrors.teamId1.push("Team name is required.");
 	}
 
-	if (!team2.trim()) {
-		newErrors.team2.push("Team name is required.");
-	} else if (team1 === team2) {
-		newErrors.team2.push("There must be two different teams");
+	if (!teamId2.trim()) {
+		newErrors.teamId2.push("Team name is required.");
+	} else if (teamId1 === teamId2) {
+		newErrors.teamId2.push("There must be two different teams");
 	}
 
 	if (
@@ -50,9 +50,9 @@ export const validateGame = (GameForm: GameFormValue) => {
 		location.length < 3 ||
 		!duration ||
 		duration < 90 ||
-		!team1.trim() ||
-		!team2.trim() ||
-		team1 === team2
+		!teamId1.trim() ||
+		!teamId2.trim() ||
+		teamId1 === teamId2
 	) {
 		isSuccess = false;
 	}

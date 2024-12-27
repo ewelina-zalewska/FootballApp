@@ -1,19 +1,19 @@
 ﻿import { SingleGame } from "@/components/List/games/SingleGame";
-import { useGamesList } from "@/hooks/games/useGamesList";
+import { useGetGamesQuery } from "@/hooks/react-query/games/useGetGamesQuery";
 import { GameForm } from "@/components/Forms/games/GameForm";
 
 export const GamesList = () => {
-	const { data, error, loading, REMOVE_GAME, ADD_GAME } = useGamesList();
+	const { data, isLoading, error } = useGetGamesQuery();
 
-	if (loading) return <p> Loading... </p>;
-	if (error) return <p>{error}</p>;
+	if (isLoading) return <p> Loading... </p>;
+	if (error) return <p>{error.message}</p>;
 	if (!data) return null;
 	return (
 		<>
-			<GameForm onNewGame={ADD_GAME} />
+			<GameForm />
 			<ul>
 				{data.map((element) => (
-					<SingleGame element={element} key={element.id} remove={REMOVE_GAME} />
+					<SingleGame element={element} key={element.id} />
 				))}
 			</ul>
 		</>

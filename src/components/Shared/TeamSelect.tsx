@@ -20,12 +20,12 @@ export const TeamSelect = forwardRef(
 				>
 					{!value && <option value="">Select an option</option>}
 					{data.map((label, i) => (
-						<option key={i} value={label.name}>
+						<option key={i} value={label.id}>
 							{label.name}
 						</option>
 					))}
 				</select>
-				<input name={name} value={value} readOnly />
+				{/* <input name={name} value={value} readOnly /> */}
 				<FieldErrors errors={errors} />
 			</>
 		);

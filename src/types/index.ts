@@ -31,7 +31,7 @@ export type TeamFormErrors = {
 };
 
 export type GameFormErrors = {
-	[key in keyof GameFormValue]: string[];
+	[key in keyof GameDto]: string[];
 };
 
 export type PlayerFormErrors = {
@@ -95,9 +95,6 @@ export type PlayerFormFieldsetProps = {
 	formState: PlayerFormValue;
 	fieldName: string;
 };
-export type PlayerFormProps = {
-	onNewPlayer: (player: Player) => void;
-};
 
 //Games
 export type GameFormValue = {
@@ -105,9 +102,9 @@ export type GameFormValue = {
 	title: string;
 	location: string;
 	duration: number;
-	team1: string;
+	teamId1: string;
 	numberOfGoals_team1: number;
-	team2: string;
+	teamId2: string;
 	numberOfGoals_team2: number;
 };
 
@@ -116,9 +113,9 @@ export type GameDto = {
 	title: string;
 	location: string;
 	duration: number;
-	team1: string;
+	teamId1: string;
 	numberOfGoals_team1: number;
-	team2: string;
+	teamId2: string;
 	numberOfGoals_team2: number;
 };
 
@@ -128,22 +125,20 @@ export type Game = {
 	title: string;
 	location: string;
 	duration: number;
-	team1: string;
+	teamId1: string;
 	numberOfGoals_team1: number;
-	team2: string;
+	teamId2: string;
 	numberOfGoals_team2: number;
 };
 
-export type GameFormProps = {
-	onNewGame: (game: Game) => void;
-};
 export type GameFormFieldsetProps = {
 	HANDLE_CHANGE: (e: FormChangeEvent) => void;
 	HANDLE_SUBMIT: (e: FormEvent) => void;
 	errors: GameFormErrors;
 	success: boolean;
 	formState: GameFormValue;
-	winner: string;
+	winner?: string;
+	fieldName: string;
 };
 
 //Teams

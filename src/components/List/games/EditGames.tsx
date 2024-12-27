@@ -1,26 +1,35 @@
 ﻿import { FormEvent, useEffect, useState } from "react";
-import { GameFormErrors, GameDto } from "@/types";
+import { Game, GameDto, GameFormErrors } from "@/types";
+import { useUpdateGameMutation } from "@/hooks/react-query/games/useUpdateGameMutation";
 import { useForm } from "@/hooks/forms/useForm";
-import { GameFormFieldset } from "@/components/Forms/games/GameFormFieldset";
-import { validateGame as VALIDATE_GAME } from "@/utils/validateGame";
 import { useSuccess } from "@/hooks/forms/useSuccess";
-import { useGamesCreateMutation } from "@/hooks/react-query/games/useGamesCreateMutation";
+import { validateGame as VALIDATE_GAME } from "@/utils/validateGame";
+import { GameFormFieldset } from "@/components/Forms/games/GameFormFieldset";
 
-export const GameForm = () => {
-	const { mutate: CREATE_GAME, isPending, error } = useGamesCreateMutation();
+type EditGames = {
+	game: Game;
+};
+
+export const EditGames = ({ game }: EditGames) => {
+	const {
+		mutate: EDIT_GAME,
+		isPending,
+		error,
+	} = useUpdateGameMutation(game.id);
 	const { success, setSuccess } = useSuccess();
+	const [submitClicked, setSubmitClicked] = useState<boolean>(false);
+
 	const [formState, setFormState, HANDLE_CHANGE] = useForm<GameDto>({
-		date: "",
-		title: "",
-		location: "",
-		duration: 90,
-		teamId1: "",
-		numberOfGoals_team1: 0,
-		teamId2: "",
-		numberOfGoals_team2: 0,
+		date: game.date,
+		title: game.title,
+		location: game.location,
+		duration: game.duration,
+		teamId1: game.teamId1,
+		numberOfGoals_team1: game.numberOfGoals_team1,
+		teamId2: game.teamId2,
+		numberOfGoals_team2: game.numberOfGoals_team2,
 	});
 
-	const [submitClicked, setSubmitClicked] = useState<boolean>(false);
 	const [errors, setErrors] = useState<GameFormErrors>({
 		date: [],
 		title: [],
@@ -48,7 +57,7 @@ export const GameForm = () => {
 		if (!success) {
 			setSubmitClicked(true);
 		} else {
-			CREATE_GAME({
+			EDIT_GAME({
 				date: formState.date,
 				title: formState.title,
 				location: formState.location,
@@ -58,23 +67,22 @@ export const GameForm = () => {
 				teamId2: formState.teamId2,
 				numberOfGoals_team2: formState.numberOfGoals_team2,
 			});
+
 			setFormState({
-				date: "",
-				title: "",
-				location: "",
-				duration: 90,
-				teamId1: "",
-				numberOfGoals_team1: 0,
-				teamId2: "",
-				numberOfGoals_team2: 0,
+				date: formState.date,
+				title: formState.title,
+				location: formState.location,
+				duration: formState.duration,
+				teamId1: formState.teamId1,
+				numberOfGoals_team1: formState.numberOfGoals_team1,
+				teamId2: formState.teamId2,
+				numberOfGoals_team2: formState.numberOfGoals_team2,
 			});
 			setSubmitClicked(false);
 			console.log("Form is being sent!");
 		}
 	};
-
 	if (isPending) return <p>Loading...</p>;
-
 	return (
 		<>
 			<GameFormFieldset
@@ -83,9 +91,9 @@ export const GameForm = () => {
 				errors={errors}
 				success={success}
 				formState={formState}
-				fieldName="name"
+				fieldName="edit"
 			/>
-			{error && <p> {error.message}</p>}
+			{error && <p>{error.message}</p>}
 		</>
 	);
 };

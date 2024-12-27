@@ -5,7 +5,7 @@ import { useFocus } from "@/hooks/forms/useFocus";
 import { TheField } from "@/components/Shared/TheField";
 import { TeamSelect } from "@/components/Shared/TeamSelect";
 import { TheButton } from "@/components/Shared/TheButton";
-import { useApi } from "@/hooks/useApi";
+import { useGetTeamsQuery } from "@/hooks/react-query/teams/useGetTeamsQuery";
 
 export const GameFormFieldset = ({
 	HANDLE_CHANGE,
@@ -13,33 +13,47 @@ export const GameFormFieldset = ({
 	errors,
 	success,
 	formState,
-	winner,
+	fieldName,
 }: GameFormFieldsetProps) => {
 	const buttonRef = useRef<HTMLButtonElement | null>(null);
 	const firstRef = useFocus<HTMLInputElement>();
 	const formRef = useRef<HTMLFormElement>(null);
 
+	const { data: teams, isLoading, error } = useGetTeamsQuery();
 	const { now, yearBefore } = getDate();
 	const {
 		date,
 		title,
 		location,
 		duration,
-		team1,
+		teamId1,
 		numberOfGoals_team1,
-		team2,
+		teamId2,
 		numberOfGoals_team2,
 	} = formState;
 
-	const { API_GET } = useApi();
 	const [availableTeams, setAvailableTeams] = useState<Team[]>([]);
 
 	const HANDLE_CLICK = async () => {
-		const availableTeams = await API_GET<Team[]>(`teams`);
-		setAvailableTeams(availableTeams);
+		setAvailableTeams(teams || []);
 	};
 
 	const SEND_FORM = () => formRef.current?.requestSubmit();
+
+	const titleLabel =
+		fieldName === "edit" ? "Change game title" : "Add game title";
+	const dateLabel = fieldName === "edit" ? "Change game date" : "Add game date";
+	const locationLabel =
+		fieldName === "edit" ? "Change game location" : "Add game location";
+	const durationLabel =
+		fieldName === "edit" ? "Change game duration" : "Add game duration";
+	const teamNameLabel =
+		fieldName === "edit" ? "Change team name" : "Add team name";
+	const goalsLabel =
+		fieldName === "edit" ? "Change number of goals" : "Add number of goals";
+	const btnLabel = fieldName === "edit" ? "CHANGE" : "ADD GAME";
+
+	if (isLoading) return <p>Loading...</p>;
 	return (
 		<form ref={formRef} onSubmit={HANDLE_SUBMIT}>
 			<TheField
@@ -48,7 +62,7 @@ export const GameFormFieldset = ({
 				name="title"
 				errors={errors.title}
 				value={title}
-				label="Add game title"
+				label={titleLabel}
 				onChange={HANDLE_CHANGE}
 			/>
 			<TheField
@@ -56,7 +70,7 @@ export const GameFormFieldset = ({
 				name="date"
 				errors={errors.date}
 				value={date}
-				label="Add game date"
+				label={dateLabel}
 				minDate={yearBefore}
 				maxDate={now}
 				onChange={HANDLE_CHANGE}
@@ -66,7 +80,7 @@ export const GameFormFieldset = ({
 				name="location"
 				errors={errors.location}
 				value={location}
-				label="Add game location"
+				label={locationLabel}
 				onChange={HANDLE_CHANGE}
 			/>
 			<TheField
@@ -74,16 +88,16 @@ export const GameFormFieldset = ({
 				name="duration"
 				errors={errors.duration}
 				value={duration}
-				label="Add game duration"
+				label={durationLabel}
 				onChange={HANDLE_CHANGE}
 			/>
 
 			<fieldset>
 				<TeamSelect
-					name="team1"
-					errors={errors.team1}
-					value={team1}
-					legend="For"
+					name="teamId1"
+					errors={errors.teamId1}
+					value={teamId1}
+					legend={teamNameLabel}
 					onChange={HANDLE_CHANGE}
 					onClick={HANDLE_CLICK}
 					data={availableTeams}
@@ -93,17 +107,17 @@ export const GameFormFieldset = ({
 					name="numberOfGoals_team1"
 					errors={errors.numberOfGoals_team1}
 					value={numberOfGoals_team1}
-					label="number of goals"
+					label={goalsLabel}
 					onChange={HANDLE_CHANGE}
 				/>
 			</fieldset>
 
 			<fieldset>
 				<TeamSelect
-					name="team2"
-					errors={errors.team2}
-					value={team2}
-					legend="For"
+					name="teamId2"
+					errors={errors.teamId2}
+					value={teamId2}
+					legend={teamNameLabel}
 					onChange={HANDLE_CHANGE}
 					onClick={HANDLE_CLICK}
 					data={availableTeams}
@@ -113,20 +127,18 @@ export const GameFormFieldset = ({
 					name="numberOfGoals_team2"
 					errors={errors.numberOfGoals_team2}
 					value={numberOfGoals_team2}
-					label="number of goals"
+					label={goalsLabel}
 					onChange={HANDLE_CHANGE}
 				/>
 			</fieldset>
-			<div>
-				<p>Winner:{winner}</p>
-			</div>
 			<TheButton
 				type="submit"
-				btnLabel="ADD GAME"
+				btnLabel={btnLabel}
 				ref={buttonRef}
 				onClick={SEND_FORM}
 			/>
 			{success && <p>The game has been added.</p>}
+			{error && <p>{error.message}</p>}
 		</form>
 	);
 };

@@ -1,13 +1,13 @@
 ﻿import { GameFormValue } from "@/types";
 
 export const getWinner = ({
-	team1,
+	teamId1,
 	numberOfGoals_team1,
-	team2,
+	teamId2,
 	numberOfGoals_team2,
 }: GameFormValue) => {
 	let winner: string | null = null;
 	if (numberOfGoals_team1 === numberOfGoals_team2) winner = "Remis";
-	else winner = numberOfGoals_team1 > numberOfGoals_team2 ? team1 : team2;
+	else winner = numberOfGoals_team1 > numberOfGoals_team2 ? teamId1 : teamId2;
 	return winner;
 };
