@@ -2,7 +2,15 @@
 
 export const validateGame = (GameForm: GameFormValue) => {
 	let isSuccess = true;
-	const { title, location, duration, teamId1, teamId2 } = GameForm;
+	const {
+		title,
+		location,
+		duration,
+		teamId1,
+		teamId2,
+		numberOfGoals_team1,
+		numberOfGoals_team2,
+	} = GameForm;
 
 	const newErrors: GameFormErrors = {
 		date: [],
@@ -33,6 +41,18 @@ export const validateGame = (GameForm: GameFormValue) => {
 		);
 	}
 
+	if (numberOfGoals_team1 < 0) {
+		newErrors.numberOfGoals_team1.push(
+			"Number of goals must be greater than or equal to 0.",
+		);
+	}
+
+	if (numberOfGoals_team2 < 0) {
+		newErrors.numberOfGoals_team2.push(
+			"Number of goals must be greater than or equal to 0.",
+		);
+	}
+
 	if (!teamId1.trim()) {
 		newErrors.teamId1.push("Team name is required.");
 	}
@@ -50,6 +70,8 @@ export const validateGame = (GameForm: GameFormValue) => {
 		location.length < 3 ||
 		!duration ||
 		duration < 90 ||
+		numberOfGoals_team1 < 0 ||
+		numberOfGoals_team2 < 0 ||
 		!teamId1.trim() ||
 		!teamId2.trim() ||
 		teamId1 === teamId2
