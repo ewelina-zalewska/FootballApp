@@ -10,16 +10,21 @@
 		"prettify": "prettier . --write",
 		"preview": "vite preview",
 		"typecheck": "tsc --noEmit --jsx react-jsx",
-		"prepare": "husky install"
+		"prepare": "husky install",
+		"server": "json-server ./db.json"
 	},
 	"dependencies": {
+		"@tanstack/react-query": "^5.62.8",
 		"@vitejs/plugin-react": "^4.3.4",
 		"eslint-plugin-import": "^2.31.0",
+		"json-server": "^1.0.0-beta.3",
 		"react": "^18.3.1",
-		"react-dom": "^18.3.1"
+		"react-dom": "^18.3.1",
+		"styled-components": "^6.1.13"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.16.0",
+		"@swc/plugin-styled-components": "^6.0.2",
 		"@types/node": "^22.10.1",
 		"@types/react": "^18.3.11",
 		"@types/react-dom": "^18.3.1",
