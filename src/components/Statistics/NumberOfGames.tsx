@@ -1,6 +1,33 @@
 ﻿import { ChangeEvent, useState } from "react";
 import { useGetGamesQuery } from "@/hooks/react-query/games/useGetGamesQuery";
 import { Game } from "@/types";
+import styled from "styled-components";
+
+const StyledBox = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	@media (min-width: 768px) {
+		width: calc(100% / 3);
+	}
+`;
+
+const StyledSelect = styled.select`
+	border: none;
+	padding: 5px;
+	background-color: ${(props) => props.theme.colors.bodyColors};
+	color: #d1ccc3;
+`;
+
+const StyledList = styled.ul`
+	list-style: none;
+	padding: 0;
+	& > li {
+		width: 70%;
+		margin: 0 auto;
+	}
+`;
 
 export const NumberOfGames = () => {
 	const { data: games, error, isLoading } = useGetGamesQuery();
@@ -26,9 +53,9 @@ export const NumberOfGames = () => {
 			if (period === "day") {
 				date = gameDate.toISOString().split("T")[0];
 			} else if (period === "week") {
-				date = `In ${gameDate.getFullYear()}– week number ${findWeek(gameDate)}`;
+				date = `${findWeek(gameDate)} week ${gameDate.getFullYear()} `;
 			} else if (period === "month") {
-				date = `${gameDate.getFullYear()}–${("0" + (gameDate.getMonth() + 1)).slice(-2)}`;
+				date = `${("0" + (gameDate.getMonth() + 1)).slice(-2)}.${gameDate.getFullYear()}`;
 			}
 
 			dates[date] = (dates[date] || 0) + 1;
@@ -52,29 +79,30 @@ export const NumberOfGames = () => {
 	const numberOfGames = handleData(games || [], periodOfTime);
 
 	return (
-		<div>
-			<fieldset>
-				<legend>Select a period</legend>
-				<select value={periodOfTime} onChange={handleChange}>
-					<option value="day">Day</option>
-					<option value="week">Week</option>
-					<option value="month">Month</option>
-				</select>
-			</fieldset>
+		<StyledBox>
+			<h2>NUMBER OF GAMES</h2>
+			<legend>Select a period</legend>
+			<StyledSelect value={periodOfTime} onChange={handleChange}>
+				<option value="day">Day</option>
+				<option value="week">Week</option>
+				<option value="month">Month</option>
+			</StyledSelect>
+
 			<div>
-				<h2>
+				<h3>
 					Number of games per
 					<strong> {periodOfTime}</strong>
-				</h2>
-				<ul>
+				</h3>
+				<StyledList>
 					{numberOfGames.map((game) => (
 						<li key={game.date}>
-							<p>{game.date}</p>
-							<p>{game.count}</p>
+							<p>
+								{game.date} – {game.count} {game.count === 1 ? "game" : "games"}
+							</p>
 						</li>
 					))}
-				</ul>
+				</StyledList>
 			</div>
-		</div>
+		</StyledBox>
 	);
 };

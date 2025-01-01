@@ -1,6 +1,34 @@
 ﻿import { useMemo, useRef } from "react";
 import { useGetGamesQuery } from "@/hooks/react-query/games/useGetGamesQuery";
 import { useGetTeamsQuery } from "@/hooks/react-query/teams/useGetTeamsQuery";
+import styled from "styled-components";
+
+const StyledBox = styled.div`
+	& > h2 {
+		text-align: center;
+	}
+	@media (min-width: 768px) {
+		width: calc(100% / 3);
+	}
+`;
+
+const StyledList = styled.ul`
+	list-style: none;
+	padding: 10px;
+	text-align: center;
+	& > li {
+		padding: 10px;
+	}
+	& > li:nth-child(1) {
+		color: ${(props) => props.theme.colors.top1color};
+	}
+	& > li:nth-child(2) {
+		color: ${(props) => props.theme.colors.top2Color};
+	}
+	& > li:nth-child(3) {
+		color: ${(props) => props.theme.colors.top3Color};
+	}
+`;
 
 export const TopTeams = () => {
 	const { data: games } = useGetGamesQuery();
@@ -36,12 +64,16 @@ export const TopTeams = () => {
 	}, [games, teams]);
 
 	return (
-		<ul>
-			{findTopTeams.map((team) => (
-				<li key={team.teamId}>
-					{team.teamName} : {team.numberOfGoals}
-				</li>
-			))}
-		</ul>
+		<StyledBox>
+			<h2>Top teams</h2>
+			<StyledList>
+				{findTopTeams.map((team) => (
+					<li key={team.teamId}>
+						{team.teamName} scored {team.numberOfGoals}{" "}
+						{team.numberOfGoals === 1 ? "goal" : "goals"}
+					</li>
+				))}
+			</StyledList>
+		</StyledBox>
 	);
 };

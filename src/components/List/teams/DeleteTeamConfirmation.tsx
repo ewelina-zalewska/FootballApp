@@ -3,6 +3,7 @@ import { Game, Team } from "@/types";
 import { useGetPlayersQuery } from "@/hooks/react-query/players/useGetPlayersQuery";
 import { useUpdateMultiplePlayersTeamMutation } from "@/hooks/react-query/teams/useUpdateMultiplePlayersTeamMutation";
 import { useGetGamesQuery } from "@/hooks/react-query/games/useGetGamesQuery";
+import { TheButton } from "@/components/Shared/TheButton";
 
 type DeleteTeamConfirmationProps = {
 	onCancel: () => void;
@@ -56,8 +57,8 @@ export const DeleteTeamConfirmation = ({
 					Do you really want to delete team <strong>{team.name}</strong>?
 				</p>
 			)}
-			<button onClick={HANDLE_DELETE}>Delete</button>
-			<button onClick={onCancel}>Cancel</button>
+			<TheButton btnLabel="Delete" onClick={HANDLE_DELETE} />
+			<TheButton btnLabel="Cancel" onClick={onCancel} />
 		</div>
 	);
 };

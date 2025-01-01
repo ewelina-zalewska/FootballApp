@@ -6,6 +6,13 @@ import { TheField } from "@/components/Shared/TheField";
 import { TeamSelect } from "@/components/Shared/TeamSelect";
 import { TheButton } from "@/components/Shared/TheButton";
 import { useGetTeamsQuery } from "@/hooks/react-query/teams/useGetTeamsQuery";
+import { StyledForm } from "@/assets/style/StyledForm";
+import styled from "styled-components";
+
+const StyledFieldset = styled.fieldset`
+	padding: 15px;
+	border: none;
+`;
 
 export const GameFormFieldset = ({
 	HANDLE_CHANGE,
@@ -56,89 +63,97 @@ export const GameFormFieldset = ({
 	if (isLoading) return <p>Loading...</p>;
 	return (
 		<form ref={formRef} onSubmit={HANDLE_SUBMIT}>
-			<TheField
-				ref={firstRef}
-				type="text"
-				name="title"
-				errors={errors.title}
-				value={title}
-				label={titleLabel}
-				onChange={HANDLE_CHANGE}
-			/>
-			<TheField
-				type="date"
-				name="date"
-				errors={errors.date}
-				value={date}
-				label={dateLabel}
-				minDate={yearBefore}
-				maxDate={now}
-				onChange={HANDLE_CHANGE}
-			/>
-			<TheField
-				type="text"
-				name="location"
-				errors={errors.location}
-				value={location}
-				label={locationLabel}
-				onChange={HANDLE_CHANGE}
-			/>
-			<TheField
-				type="number"
-				name="duration"
-				errors={errors.duration}
-				value={duration}
-				label={durationLabel}
-				onChange={HANDLE_CHANGE}
-			/>
-
-			<fieldset>
-				<TeamSelect
-					name="teamId1"
-					errors={errors.teamId1}
-					value={teamId1}
-					legend={teamNameLabel}
+			<StyledForm>
+				<legend>{btnLabel}</legend>
+				{success && (
+					<p>
+						The game {fieldName === "edit" && "data"} has been{" "}
+						{fieldName === "edit" ? "changed" : "added"}.
+					</p>
+				)}
+				<TheField
+					ref={firstRef}
+					type="text"
+					name="title"
+					errors={errors.title}
+					value={title}
+					label={titleLabel}
 					onChange={HANDLE_CHANGE}
-					onClick={HANDLE_CLICK}
-					data={availableTeams}
+				/>
+				<TheField
+					type="date"
+					name="date"
+					errors={errors.date}
+					value={date}
+					label={dateLabel}
+					minDate={yearBefore}
+					maxDate={now}
+					onChange={HANDLE_CHANGE}
+				/>
+				<TheField
+					type="text"
+					name="location"
+					errors={errors.location}
+					value={location}
+					label={locationLabel}
+					onChange={HANDLE_CHANGE}
 				/>
 				<TheField
 					type="number"
-					name="numberOfGoals_team1"
-					errors={errors.numberOfGoals_team1}
-					value={numberOfGoals_team1}
-					label={goalsLabel}
+					name="duration"
+					errors={errors.duration}
+					value={duration}
+					label={durationLabel}
 					onChange={HANDLE_CHANGE}
 				/>
-			</fieldset>
 
-			<fieldset>
-				<TeamSelect
-					name="teamId2"
-					errors={errors.teamId2}
-					value={teamId2}
-					legend={teamNameLabel}
-					onChange={HANDLE_CHANGE}
-					onClick={HANDLE_CLICK}
-					data={availableTeams}
+				<StyledFieldset>
+					<TeamSelect
+						name="teamId1"
+						errors={errors.teamId1}
+						value={teamId1}
+						legend={teamNameLabel}
+						onChange={HANDLE_CHANGE}
+						onClick={HANDLE_CLICK}
+						data={availableTeams}
+					/>
+					<TheField
+						type="number"
+						name="numberOfGoals_team1"
+						errors={errors.numberOfGoals_team1}
+						value={numberOfGoals_team1}
+						label={goalsLabel}
+						onChange={HANDLE_CHANGE}
+					/>
+				</StyledFieldset>
+
+				<StyledFieldset>
+					<TeamSelect
+						name="teamId2"
+						errors={errors.teamId2}
+						value={teamId2}
+						legend={teamNameLabel}
+						onChange={HANDLE_CHANGE}
+						onClick={HANDLE_CLICK}
+						data={availableTeams}
+					/>
+					<TheField
+						type="number"
+						name="numberOfGoals_team2"
+						errors={errors.numberOfGoals_team2}
+						value={numberOfGoals_team2}
+						label={goalsLabel}
+						onChange={HANDLE_CHANGE}
+					/>
+				</StyledFieldset>
+				<TheButton
+					type="submit"
+					btnLabel={btnLabel}
+					ref={buttonRef}
+					onClick={SEND_FORM}
 				/>
-				<TheField
-					type="number"
-					name="numberOfGoals_team2"
-					errors={errors.numberOfGoals_team2}
-					value={numberOfGoals_team2}
-					label={goalsLabel}
-					onChange={HANDLE_CHANGE}
-				/>
-			</fieldset>
-			<TheButton
-				type="submit"
-				btnLabel={btnLabel}
-				ref={buttonRef}
-				onClick={SEND_FORM}
-			/>
-			{success && <p>The game has been added.</p>}
-			{error && <p>{error.message}</p>}
+				{error && <p>{error.message}</p>}
+			</StyledForm>
 		</form>
 	);
 };

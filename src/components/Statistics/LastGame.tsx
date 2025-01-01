@@ -1,5 +1,16 @@
-﻿import { useGetGamesQuery } from "@/hooks/react-query/games/useGetGamesQuery";
+﻿import styled from "styled-components";
+import { useGetGamesQuery } from "@/hooks/react-query/games/useGetGamesQuery";
 import { SingleGameInfo } from "@/components/Forms/games/SingleGameInfo";
+
+const StyledLastGame = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-items: center;
+	align-items: center;
+	@media (min-width: 768px) {
+		width: calc(100% / 3);
+	}
+`;
 
 export const LastGame = () => {
 	const { data: games } = useGetGamesQuery();
@@ -10,5 +21,10 @@ export const LastGame = () => {
 
 	if (!lastGame) return;
 
-	return <SingleGameInfo element={lastGame} />;
+	return (
+		<StyledLastGame>
+			<h2>LAST GAME</h2>
+			<SingleGameInfo element={lastGame} />
+		</StyledLastGame>
+	);
 };

@@ -4,6 +4,7 @@ import { useFocus } from "@/hooks/forms/useFocus";
 import { TheField } from "@/components/Shared/TheField";
 import { getDate } from "@/utils/getDate";
 import { TheButton } from "@/components/Shared/TheButton";
+import { StyledForm } from "@/assets/style/StyledForm";
 
 export const TeamFormFieldset = ({
 	HANDLE_CHANGE,
@@ -33,40 +34,48 @@ export const TeamFormFieldset = ({
 	const btnLabel = fieldName === "edit" ? "CHANGE" : "ADD TEAM";
 	return (
 		<form ref={formRef} onSubmit={HANDLE_SUBMIT}>
-			<TheField
-				ref={firstRef}
-				type="text"
-				name="name"
-				errors={errors.name}
-				value={name}
-				label={nameLabel}
-				onChange={HANDLE_CHANGE}
-			/>
-			<TheField
-				type="date"
-				name="yearOfFoundation"
-				errors={errors.yearOfFoundation}
-				value={yearOfFoundation}
-				label={foundingDateLabel}
-				onChange={HANDLE_CHANGE}
-				minDate={year1900}
-				maxDate={now}
-			/>
-			<TheField
-				type="text"
-				name="location"
-				errors={errors.location}
-				value={location}
-				label={locationLabel}
-				onChange={HANDLE_CHANGE}
-			/>
-			<TheButton
-				type="submit"
-				btnLabel={btnLabel}
-				ref={buttonRef}
-				onClick={SEND_FORM}
-			/>
-			{success && <p>The team has been added.</p>}
+			<StyledForm>
+				<legend>{btnLabel}</legend>
+				{success && (
+					<p>
+						The team {fieldName === "edit" && "data"} has been{" "}
+						{fieldName === "edit" ? "changed" : "added"}.
+					</p>
+				)}
+				<TheField
+					ref={firstRef}
+					type="text"
+					name="name"
+					errors={errors.name}
+					value={name}
+					label={nameLabel}
+					onChange={HANDLE_CHANGE}
+				/>
+				<TheField
+					type="date"
+					name="yearOfFoundation"
+					errors={errors.yearOfFoundation}
+					value={yearOfFoundation}
+					label={foundingDateLabel}
+					onChange={HANDLE_CHANGE}
+					minDate={year1900}
+					maxDate={now}
+				/>
+				<TheField
+					type="text"
+					name="location"
+					errors={errors.location}
+					value={location}
+					label={locationLabel}
+					onChange={HANDLE_CHANGE}
+				/>
+				<TheButton
+					type="submit"
+					btnLabel={btnLabel}
+					ref={buttonRef}
+					onClick={SEND_FORM}
+				/>
+			</StyledForm>
 		</form>
 	);
 };

@@ -1,6 +1,17 @@
-﻿import { useGetPlayersQuery } from "@/hooks/react-query/players/useGetPlayersQuery";
+﻿import styled from "styled-components";
+import { useGetPlayersQuery } from "@/hooks/react-query/players/useGetPlayersQuery";
 import { SinglePlayer } from "@/components/List/players/SinglePlayer";
 import { PlayerForm } from "@/components/Forms/players/PlayerForm";
+
+const StyledList = styled.ul`
+	display: flex;
+	flex-direction: column;
+	justify-items: center;
+	align-items: center;
+	width: 90%;
+	list-style: none;
+	padding: 10px;
+`;
 
 export const PlayersList = () => {
 	const { data, isLoading, error } = useGetPlayersQuery();
@@ -11,11 +22,11 @@ export const PlayersList = () => {
 	return (
 		<>
 			<PlayerForm />
-			<ul>
+			<StyledList>
 				{data.map((element) => (
 					<SinglePlayer element={element} key={element.id} />
 				))}
-			</ul>
+			</StyledList>
 		</>
 	);
 };

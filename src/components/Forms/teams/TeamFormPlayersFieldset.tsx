@@ -1,6 +1,17 @@
 ﻿import { useRef } from "react";
 import { TeamFormPlayersFieldsetProps, TeamMember } from "@/types";
 import { TheButton } from "@/components/Shared/TheButton";
+import styled from "styled-components";
+
+const StyledBox = styled.div`
+	width: 70%;
+`;
+
+const StyledSelect = styled.select`
+	padding: 5px;
+	background-color: ${(props) => props.theme.colors.primary};
+	color: ${(props) => props.theme.colors.secondary};
+`;
 
 export const TeamFormPlayersFieldset = ({
 	HANDLE_SUBMIT,
@@ -23,14 +34,20 @@ export const TeamFormPlayersFieldset = ({
 	if (isLoading) return <p>Loading...</p>;
 	if (error) return <p>Something went wrong</p>;
 	return (
-		<>
-			<button onClick={TOGGLE_SHOW_AVAILABLE_PLAYERS}>
-				{!showAvailablePlayers ? "ADD PLAYER TO THE TEAM" : "CLOSE"}
-			</button>
+		<StyledBox>
+			<TheButton
+				btnLabel={!showAvailablePlayers ? "ADD PLAYER TO THE TEAM" : "CLOSE"}
+				onClick={TOGGLE_SHOW_AVAILABLE_PLAYERS}
+			/>
 			{showAvailablePlayers && (
 				<form ref={formRef} onSubmit={HANDLE_SUBMIT}>
+					{success && (
+						<p>
+							{formState.name} {formState.lastname} has been added.
+						</p>
+					)}
 					<label htmlFor="teamPlayers">Select a player: </label>
-					<select
+					<StyledSelect
 						onClick={SET_AVAILABLE_PLAYER}
 						name="teamPlayers"
 						id="teamPlayers"
@@ -47,7 +64,7 @@ export const TeamFormPlayersFieldset = ({
 									{player.name} {player.lastname}
 								</option>
 							))}
-					</select>
+					</StyledSelect>
 					<TheButton
 						type="submit"
 						btnLabel="ADD PLAYER"
@@ -56,11 +73,6 @@ export const TeamFormPlayersFieldset = ({
 					/>
 				</form>
 			)}
-			{success && (
-				<p>
-					{formState.name} {formState.lastname} has been added.
-				</p>
-			)}
-		</>
+		</StyledBox>
 	);
 };

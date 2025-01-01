@@ -3,7 +3,7 @@
 export const useChangeSection = () => {
 	const [section, setSection] = useState<
 		"players" | "teams" | "games" | "statistics"
-	>("statistics");
+	>("players");
 
 	const SHOW_PLAYERS = () => setSection("players");
 	const SHOW_TEAMS = () => setSection("teams");
@@ -19,8 +19,8 @@ export const useChangeSection = () => {
 		players,
 		teams,
 		games,
-		SHOW_PLAYERS,
 		statistics,
+		SHOW_PLAYERS,
 		SHOW_TEAMS,
 		SHOW_GAMES,
 		SHOW_STATISTICS,

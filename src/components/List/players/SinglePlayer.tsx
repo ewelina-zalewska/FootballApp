@@ -3,10 +3,27 @@ import { usePlayersDeleteMutation } from "@/hooks/react-query/players/usePlayers
 import { EditPlayers } from "@/components/List/players/EditPlayers";
 import { useEffect, useState } from "react";
 import { DeletePlayerConfirmation } from "@/components/List/players/DeletePlayerConfirmation";
+import { TheButton } from "@/components/Shared/TheButton";
+import styled from "styled-components";
 
 type SinglePlayerProps = {
 	element: TeamMember;
 };
+
+const StyledItem = styled.li`
+	display: flex;
+	justify-content: space-between;
+	width: inherit;
+	border-bottom: 2px solid #04040e;
+	margin-bottom: 25px;
+	& > p {
+		width: 80%;
+	}
+	& > div {
+		min-width: 100px;
+		flex-wrap: nowrap;
+	}
+`;
 
 export const SinglePlayer = ({ element }: SinglePlayerProps) => {
 	const [mode, setMode] = useState<"edit" | "delete" | "none">("none");
@@ -23,18 +40,25 @@ export const SinglePlayer = ({ element }: SinglePlayerProps) => {
 
 	return (
 		<>
-			<li>
-				<p>{element.name}</p>
-				<p> {element.lastname}</p>
-				<p>{element.team}</p>
+			<StyledItem>
+				<p>
+					{element.name} {element.lastname} –{" "}
+					{!element.team ? "No team" : `${element.team}`}
+				</p>
+				<div>
+					<TheButton
+						btnLabel={mode === "edit" ? "CANCEL" : "EDIT"}
+						disabled={isPending}
+						onClick={toggleEditMode}
+					/>
 
-				<button disabled={isPending} onClick={toggleEditMode}>
-					{mode === "edit" ? "CANCEL" : "EDIT"}
-				</button>
-				<button disabled={isPending} onClick={toggleDeleteMode}>
-					{mode === "delete" ? "CANCEL" : "DELETE"}
-				</button>
-			</li>
+					<TheButton
+						btnLabel={mode === "delete" ? "CANCEL" : "DELETE"}
+						disabled={isPending}
+						onClick={toggleDeleteMode}
+					/>
+				</div>
+			</StyledItem>
 			{mode === "edit" && <EditPlayers player={element} />}
 			{mode === "delete" && (
 				<DeletePlayerConfirmation

@@ -2,6 +2,14 @@
 import { SelectProps } from "@/types";
 
 import { FieldErrors } from "@/components/Shared/FieldErrors";
+import styled from "styled-components";
+
+const StyledSelect = styled.select`
+	padding: 5px;
+	border: none;
+	background-color: ${(props) => props.theme.colors.inputFocusBackground};
+	color: ${(props) => props.theme.colors.inputFocusColor};
+`;
 
 export const TeamSelect = forwardRef(
 	(
@@ -11,7 +19,7 @@ export const TeamSelect = forwardRef(
 		return (
 			<>
 				<legend>{legend}</legend>
-				<select
+				<StyledSelect
 					ref={ref}
 					name={name}
 					value={value}
@@ -24,7 +32,7 @@ export const TeamSelect = forwardRef(
 							{label.name}
 						</option>
 					))}
-				</select>
+				</StyledSelect>
 				{/* <input name={name} value={value} readOnly /> */}
 				<FieldErrors errors={errors} />
 			</>

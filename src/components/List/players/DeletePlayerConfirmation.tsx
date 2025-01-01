@@ -1,4 +1,5 @@
-﻿import { usePlayersDeleteMutation } from "@/hooks/react-query/players/usePlayersDeleteMutation";
+﻿import { TheButton } from "@/components/Shared/TheButton";
+import { usePlayersDeleteMutation } from "@/hooks/react-query/players/usePlayersDeleteMutation";
 import { TeamMember } from "@/types";
 
 type DeletePlayerConfirmationProps = {
@@ -28,7 +29,7 @@ export const DeletePlayerConfirmation = ({
 				<p>You cannot remove a player who is currently in the team.</p>
 			) : (
 				<p>
-					Do you really want to delete player
+					Do you really want to delete player{" "}
 					<strong>
 						{player.name} {player.lastname}
 					</strong>
@@ -36,8 +37,8 @@ export const DeletePlayerConfirmation = ({
 				</p>
 			)}
 
-			<button onClick={HANDLE_DELETE}>Delete</button>
-			<button onClick={onCancel}>Cancel</button>
+			<TheButton btnLabel="Delete" onClick={HANDLE_DELETE} />
+			<TheButton btnLabel="Cancel" onClick={onCancel} />
 		</div>
 	);
 };

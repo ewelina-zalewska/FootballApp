@@ -2,6 +2,7 @@
 import { SingleGameProps } from "@/types";
 import { EditGames } from "@/components/List/games/EditGames";
 import { SingleGameInfo } from "@/components/Forms/games/SingleGameInfo";
+import { TheButton } from "@/components/Shared/TheButton";
 
 export const SingleGame = ({ element }: SingleGameProps) => {
 	const [mode, setMode] = useState<"edit" | "none">("none");
@@ -14,13 +15,13 @@ export const SingleGame = ({ element }: SingleGameProps) => {
 	}, [element]);
 
 	return (
-		<>
+		<div>
 			<SingleGameInfo element={element} />
-			<button onClick={toggleEditMode}>
-				{mode === "edit" ? "CANCEL" : "EDIT"}
-			</button>
-
+			<TheButton
+				btnLabel={mode === "edit" ? "CANCEL" : "EDIT"}
+				onClick={toggleEditMode}
+			/>
 			{mode === "edit" && <EditGames game={element} />}
-		</>
+		</div>
 	);
 };
